@@ -1,0 +1,200 @@
+.collapsed.appscript::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Appscript";
+    color: rgba(251,251,251,0.72);
+}
+
+.collapsed.as3::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "AS3";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.bash::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Bash";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.cpp::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "C++";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.csharp::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "C#";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.css::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "CSS";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.delphi::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Delphi";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.diff::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Diff";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.erlang::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Erlang";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.groovy::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Groovy";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.javascript::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "JavaScript";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.java::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Java";
+    color: rgba(251,251,251,0.72);
+}
+
+.collapsed.perl::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Perl";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.python::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Python";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.php::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Php";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.plain::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Plain";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.powershell::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "PowerShell";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.ruby::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Ruby";
+    color: rgba(251,251,251,0.72);
+}
+.collapsed.sass::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Sass";
+    color: rgba(251,251,251,0.72);
+}
+
+.collapsed.scala::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Scala";
+    color: rgba(251,251,251,0.72);
+}
+
+.collapsed.sql::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Sql";
+    color: rgba(251,251,251,0.72);
+}
+
+.collapsed.vb::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "VBscript";
+    color: rgba(251,251,251,0.72);
+}
+
+.collapsed.xml::before{
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: block;
+    content: "Xml/Html";
+    color: rgba(251,251,251,0.72);
+}
+
+.entry-content .syntaxhighlighter{
+    overflow: scroll !important;
+}
+.pretty{
+    max-height: 500px;
+}
+.syntaxhighlighter.collapsed .toolbar span a.clone {
+    display: inline!important;
+}

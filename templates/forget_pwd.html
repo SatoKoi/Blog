@@ -1,0 +1,109 @@
+{% extends 'background_base.html' %}
+{% load staticfiles %}
+{% block title %}
+    后台管理系统 - 找回密码
+{% endblock %}
+{% block toggle_bar %}
+    <div class="toggle-bar clear-fix">
+        <ul class="row">
+            <li class="col-xs-12 text-center active"><span>找回密码</span></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block form %}
+    <div class="send-email-form form form-active">
+            <form role="form" autocomplete="off" id="forgetpwd_form">
+                <div class="form-group clear-fix">
+                    <div class="button-inline fl">
+                        <button type="button" class="btn btn-default fr" id="emailButton">
+                            <span class="icon-envelope-alt"></span>
+                        </button>
+                    </div>
+                    <div class="input-inline fr">
+                        <input class="form-control " type="text" placeholder="请输入邮箱" name="email" id="email" value="{{ forget_form.email.value|default_if_none:"" }}">
+                    </div>
+                </div>
+                <p class="jstips-1 tip"></p>
+                <div class="form-group clear-fix">
+                    <div class="button-inline fl ">
+                        <button type="button" class="btn btn-default fr" id="captchaButton">
+                            <span class="icon-lock"></span>
+                        </button>
+                    </div>
+                    <div class="input-inline fr">
+                        {{ forget_form.captcha }}
+                    </div>
+                </div>
+                <p class="jstips-2 tip "></p>
+                <div class="error-input form-tips"></div>
+                <div class="auto-box text-right">
+                    <a href="{% url 'users:login' %}" style="margin-right: 10px;">[返回登录]</a>
+                    <a id="hasaccount" href="#">[联系管理员?]</a>
+                </div>
+                <div class="form-group" id="register">
+                    <div class="register-button">
+                        <button type="button" class="btn-dark btn form-control" id="sendEmailButton">
+                            <span>点击发送邮件</span>
+                        </button>
+                    </div>
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+{% endblock %}
+{% block custom_js %}
+<script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+<script type="text/javascript">
+var $sendEmailButton = $("#sendEmailButton");
+$sendEmailButton.on('click', function(){
+    var $email = $('#email');
+    var $captcha_0 = $("#id_captcha_0");
+    var $captcha_1 = $("#id_captcha_1");
+    var $errorInput = $(".error-input");
+    var msg = {
+        send: false,
+        token: ''
+    };
+    if (!smEmailVarify($email) || !smCodeVarify($captcha_0, $captcha_1)) {
+        return;
+    }
+    $.ajax({
+        url: '{% url "users:forgetpwd" %}',
+        cache: false,
+        type: 'POST',
+        data: {
+            email: $email.val(),
+            captcha_0: $captcha_0.val(),
+            captcha_1: $captcha_1.val(),
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        async: true,
+        beforeSend: function(XMLHttpRequest) {
+            $errorInput.text('');     // 清空错误信息
+            $sendEmailButton.find('span').text('正在发送邮件...');
+            $sendEmailButton.attr('disabled', 'disabled');
+        },
+        success: function (data) {
+            if(data.status == "failure") {
+                $captcha_1.val('');
+                $errorInput.text(data.msg);
+            } else if(data.status == "success"){
+                msg.send = true;
+                msg.token = data.token;
+            }
+        },
+        complete: function(XMLHttpRequest){
+            if(msg.send === true) {
+                $sendEmailButton.find('span').text('已发送邮件, 请查收...').css('color', '#AF2115');
+                $sendEmailButton.attr('disabled', 'disabled');
+                setTimeout(function(){window.location.href = '/success/' + msg.token + '/' ;}, 2000);
+            } else {
+                refresh_captcha({"data": {"form_id": "forgetpwd_form"}});
+                $sendEmailButton.find('span').text('点击发送邮件');
+                $sendEmailButton.removeAttr('disabled');
+            }
+        }
+    })
+})
+</script>
+{% endblock %}

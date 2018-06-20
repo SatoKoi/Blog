@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}后台管理系统{% endblock %}</title>
+    <link href="{% static 'css/common.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/header.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/container.css' %}" rel="stylesheet" type="text/css" class="skin">
+    <link href="{% static 'css/particles.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/bootstrap-3.3.7.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    {% block custom_css %} {% endblock %}
+    <script type="text/javascript" src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+</head>
+<body>
+<header>
+    <div class="container-fluid">
+        <div class="header-box header-box-primary row">
+            <span class="col-sm-5 col-xs-12 hidden-xs center-vertical">后台管理系统</span>
+            <span class="col-sm-5 col-xs-12 visible-xs text-center center-vertical">后台管理系统</span>
+            <ul class="col-sm-7 text-right center-vertical hidden-xs">
+            <li class="user-icons"><a href="javascript:void(0);" title="换肤" target="_blank" class="changeBg"><span class="icon-exchange"></span></a></li>
+            <li class="user-icons"><a href="mailto:827188553@qq.com" title="email" target="_blank"><span class="icon-envelope"></span></a></li>
+            <li class="user-icons"><a href="https://www.github.com/SatoKoi" title="github" target="_blank"><span class="icon-github"></span></a></li>
+        </ul>
+            <ul class="col-xs-12 text-center center-vertical visible-xs">
+            <li class="user-icons"><a href="javascript:void(0);" title="换肤" target="_blank" class="changeBg"><span class="icon-exchange"></span></a></li>
+            <li class="user-icons"><a href="mailto:827188553@qq.com" title="email" target="_blank"><span class="icon-envelope"></span></a></li>
+            <li class="user-icons"><a href="https://www.github.com/SatoKoi" title="github" target="_blank"><span class="icon-github"></span></a></li>
+        </ul>
+        </div>
+    </div>
+</header>
+<section>
+    <div class="{% block container %}login-container{% endblock %} border-active" >
+        {% block toggle_bar %}
+        {% endblock %}
+        {% block form %}
+        {% endblock %}
+    </div>
+</section>
+{% block custom_msg %}
+{% endblock %}
+<footer></footer>
+<div id="particles" class="particle-primary">
+</div>
+<script type="text/javascript" src="{% static 'js/login.js' %}"></script>
+{% block custom_js %} {% endblock %}
+<script type="text/javascript" src="{% static 'js/particles/deepdarkbg.json' %}"></script>
+<script type="text/javascript" src="{% static 'js/particles/purewhitebg.json' %}"></script>
+<script type="text/javascript" src="{% static 'js/particles/particles.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/particle.js' %}"></script>
+</body>
+</html>

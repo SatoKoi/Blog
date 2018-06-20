@@ -1,0 +1,145 @@
+{% extends 'index_base.html' %}
+{% load staticfiles %}
+{% block custom_css %}
+     <link rel="stylesheet" href="{% static 'css/schedulebox.css' %}">
+{% endblock %}
+{% block fixed_js %}
+    <script type="text/javascript" src="{% static 'js/schedule/schedule.js' %}"></script>
+{% endblock %}
+{% block index_active %}
+{% endblock %}
+{% block left_content %}
+<section class="left-content">
+    {% block article_content %}
+    <div class="bread-crumbs independent">
+        <ul class="clear-fix">
+            <li><a href="{% url 'blog:index' %}"><span class="icon-home">首页</span></a>&nbsp;>&nbsp;</li>
+            {% block bread-crumbs %}
+            <li><a href="{% url 'blog:category' bread_dict.id %}"><span class="icon-folder-open">{{ bread_dict.name }}</span></a></li>
+            {% endblock %}
+        </ul>
+    </div>
+    {% block extra_content %}
+    {% endblock %}
+    {% for page in pages.object_list %}
+    <article class="article-content">
+        <header class="entry-header">
+            <h3 class="entry-title"><a href="{% url 'blog:detail' page.id %}">{{ page.title }}</a></h3>
+            <ul class="entry-meta clear-fix">
+                <li class="time-meta"><span class="icon-calendar">&nbsp;{{ page.add_time }}</span></li>
+                <li class="archive-meta"><span class="icon-folder-close-alt">&nbsp;<a href="{% url 'blog:category' page.category.id %}">{{ page.category }}</a></span></li>
+                <li class="author-meta"><span class="icon-user">&nbsp;<a href="{% url 'blog:author' page.author.id %}">{{ page.author }}</a></span></li>
+                <li class="comments-meta"><span class="icon-comments-alt">&nbsp;{{ page.comments }} 条评论</span></li>
+                <li class="views-meta"><span class="icon-eye-open">&nbsp;{{ page.views }} 人阅读</span></li>
+            </ul>
+        </header>
+        <div class="entry-content clear-fix">
+            <figure class="fl">
+                <a href="{% url 'blog:detail' page.id %}">
+                    <img class="entry-img" src="{{ MEDIA_URL }}{{ page.image }}">
+                </a>
+            </figure>
+            <div class="fr index-p">
+                {% if page.detail|length > 350 %}
+                {{ page.detail|slice:"350"|striptags|safe }}......
+                {% else %}
+                {{ page.detail|striptags|safe }}
+                {% endif %}
+            </div>
+        </div>
+        <footer class="entry-footer clear-fix">
+            <div class="footer-tag fl">
+                <ul>
+                    {% for tag in page.tags|split_tags %}
+                    <li><a href="{% url 'blog:tag' tag %}">{{ tag }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div >
+            <div class="footer-enter fr">
+                <a href="{% url 'blog:detail' page.id %}">>阅读全文</a>
+            </div>
+        </footer>
+    </article>
+    {% endfor %}
+    {% endblock %}
+
+    <!--分页模块-->
+    <ul class="pagination pull-right">
+        {% if pages.has_previous %}
+        <li><a href="?page={{ pages.pages|first }}"><<</a></li>
+        <li><a href="?{{ pages.previous_page_number.querystring }}"><</a></li>
+        {% else %}
+        <li><a href="javascript:void(0);"><<</a></li>
+        <li><a href="javascript:void(0);"><</a></li>
+        {% endif %}
+        {% for page in pages.pages %}
+            {% if page %}
+                {% ifequal page pages.number %}
+                <li><a href="javascript:void(0);" class="selected">{{ page }}</a></li>
+                {% else %}
+                <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                {% endifequal %}
+            {% else %}
+                <li class="none"><a href="">...</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if pages.has_next %}
+        <li><a href="?{{ pages.next_page_number.querystring }}">></a></li>
+        <li><a href="?page={{ pages.pages|last }}">>></a></li>
+        {% else %}
+        <li><a href="javascript:void(0);">></a></li>
+        <li><a href="javascript:void(0);">>></a></li>
+        {% endif %}
+    </ul>
+</section>
+{% endblock %}
+{% block right_content %}
+<section class="right-content right-fixed">
+    <div id="date-box"></div>
+    <div class="article-archiving right-list">
+        <div class="panel-heading">
+            <h4><i class="icon-book"></i>文章归档</h4>
+        </div>
+        <ul>
+            {% for item in archiving %}
+            <li class="list-group-item"><a href="{% url 'blog:date' item.year|concat_string:'-'|concat_string:item.month|stringformat:'s' %}" title="{{ item.year }}年{{ item.month|hans_mapping }}月文章归档">
+                {{ item.year }}年{{ item.month|hans_mapping }}月</a>
+                                       ({{ item.nums }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="article-sort right-list">
+        <div class="panel-heading">
+            <h4><i class="icon-folder-open"></i>分类信息</h4>
+        </div>
+        <ul class="clear-fix">
+            {% for item in category %}
+            <li class="list-group-item">{{ item.name|to_capitalize }}<span class="tag-counter">{{ item.get_counts }}</span></li>
+            {% endfor%}
+        </ul>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+    <script type="text/javascript" src="{% static 'js/date.js' %}"></script>
+    <script type="text/javascript">
+    $(function() {
+        var date_array = [];
+        date_array = {{ date_msg|safe }};
+        var date_cache = [];
+        $.each(date_array, function(index, date) {
+            date_cache.push(parseInt(date.substring(8)) - 1);
+        });
+        var currentMonthDays = $('#date-box').find('.current-month span');
+        $.each(date_cache, function(index, item) {
+            currentMonthDays.eq(item).addClass('has-event');
+        });
+        if(!window.localStorage) {
+            alert("为获得更好的体验, 浏览器应支持本地存储")
+        } else {
+            var storage = window.localStorage;
+            storage.setItem("date_cache", date_cache);
+        }
+    });
+</script>
+{% endblock %}

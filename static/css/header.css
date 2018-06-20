@@ -1,0 +1,35 @@
+.user-icons a{
+    color: #707070;
+    font-size: 20px;
+}
+.user-icons a:hover {
+    color: rgba(255, 73, 91, 0.8);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.user-icons a:focus {
+    color: rgba(255, 73, 91, 0.8);
+    text-decoration: none;
+}
+.header-box{
+    font: bold 18px/1.5 'microsoft YaHei';
+    letter-spacing: 1px;
+}
+.header-box ul, .header-box li{
+    display: inline-block;
+}
+.header-box-primary{
+    background: rgba(0, 0, 0, 0.95);
+    color: rgba(243, 243, 243, 0.87);
+}
+.header-box-white{
+    color: rgba(0, 0, 0, 0.95);
+    background: rgba(243, 243, 243, 0.87);
+}
+.header-box-white .user-icons a {
+    color: rgba(60,111,207,0.82);
+}
+.header-box-white .user-icons a:hover, .header-box-white .user-icons a:focus{
+    color: rgba(255, 73, 91, 0.8);
+    transition: .3s;
+}

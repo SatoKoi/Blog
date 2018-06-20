@@ -1,0 +1,85 @@
+{% extends 'category.html' %}
+{% load staticfiles %}
+{% block left_content %}
+    <section class="left-content">
+    {% block article_content %}
+        <div class="bread-crumbs independent">
+        <ul class="clear-fix">
+            <li><a href="{% url 'blog:index' %}"><span class="icon-home">首页</span></a>&nbsp;>&nbsp;</li>
+            <li><a href="{% url 'blog:category' bread_dict.id %}"><span class="icon-tag">{{ bread_dict.name }}</span></a></li>
+        </ul>
+    </div>
+    {% if tag_maps %}
+        {% for tag_map in tag_maps.object_list %}
+        <article class="article-content">
+        <header class="entry-header">
+            <h3 class="entry-title"><a href="{% url 'blog:detail' tag_map.article.id %}">{{ tag_map.article.title }}</a></h3>
+            <ul class="entry-meta clear-fix">
+                <li class="time-meta"><span class="icon-calendar">&nbsp;{{ tag_map.article.add_time }}</span></li>
+                <li class="archive-meta"><span class="icon-folder-close-alt">&nbsp;<a href="{% url 'blog:category' tag_map.article.category.id %}">{{ tag_map.article.category }}</a></span></li>
+                <li class="author-meta"><span class="icon-user">&nbsp;<a href="{% url 'blog:author' tag_map.article.author.id %}">{{ tag_map.article.author }}</a></span></li>
+                <li class="comments-meta"><span class="icon-comments-alt">&nbsp;{{ tag_map.article.comments }} 条评论</span></li>
+                <li class="views-meta"><span class="icon-eye-open">&nbsp;{{ tag_map.article.views }} 人阅读</span></li>
+            </ul>
+        </header>
+        <div class="entry-content clear-fix">
+            <figure class="fl">
+                <a href="{% url 'blog:detail' tag_map.article.id %}">
+                    <img class="entry-img" src="{{ MEDIA_URL }}{{ tag_map.article.image }}">
+                </a>
+            </figure>
+            <div class="fr index-p">
+                {% if tag_map.article.detail|length > 350 %}
+                {{ tag_map.article.detail|slice:"350"|striptags|safe }}......
+                {% else %}
+                {{ tag_map.article.detail|striptags|safe }}
+                {% endif %}
+            </div>
+        </div>
+        <footer class="entry-footer clear-fix">
+            <div class="footer-tag fl">
+                <ul>
+                    {% for tag in tag_map.article.tags|split_tags %}
+                    <li><a href="{% url 'blog:tag' tag %}">{{ tag }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div >
+            <div class="footer-enter fr">
+                <a href="{% url 'blog:detail' tag_map.article.id %}">>阅读全文</a>
+            </div>
+        </footer>
+        </article>
+        {% endfor %}
+    {% endif %}
+    {% endblock %}
+
+    <!--分页模块-->
+    <ul class="pagination pull-right">
+    {% if tag_maps.has_previous %}
+    <li><a href="?page={{ tag_maps.pages|first }}"><<</a></li>
+    <li><a href="?{{ tag_maps.previous_page_number.querystring }}"><</a></li>
+    {% else %}
+    <li><a href="javascript:void(0);"><<</a></li>
+    <li><a href="javascript:void(0);"><</a></li>
+    {% endif %}
+    {% for page in tag_maps.pages %}
+        {% if page %}
+            {% ifequal page tag_maps.number %}
+            <li><a href="javascript:void(0);" class="selected">{{ page }}</a></li>
+            {% else %}
+            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+            {% endifequal %}
+        {% else %}
+            <li class="none"><a href="">...</a></li>
+        {% endif %}
+    {% endfor %}
+    {% if tag_maps.has_next %}
+    <li><a href="?{{ tag_maps.next_page_number.querystring }}">></a></li>
+    <li><a href="?page={{ tag_maps.pages|last }}">>></a></li>
+    {% else %}
+    <li><a href="javascript:void(0);">></a></li>
+    <li><a href="javascript:void(0);">>></a></li>
+    {% endif %}
+    </ul>
+</section>
+{% endblock %}
