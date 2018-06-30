@@ -1,0 +1,403 @@
+header{
+    /*transform: translate(0, 0);*/
+    /*此处使子元素fixed定位的宽度随父元素变化, 而不是随整个屏幕*/
+}
+.transform-body{
+    /*transform: translate(0, 0);*/
+}
+#myblog{
+    transition: 0.2s;
+}
+#myblog a {
+    color: #fff;
+}
+#myblog a:hover{
+    color: rgba(62,212,255,0.82);
+}
+#myblog:hover{
+    letter-spacing: 3px;
+    opacity: 0.7;
+    transition: 0.2s opacity 0.3s ease-out;
+}
+#top-header{
+    font: 17px/2.5 'microsoft yahei';
+    color: rgba(243, 244, 244, 0.84);
+    /*color: #fff;*/
+    background: rgba(13,13,13,0.84);
+    box-shadow: 1px 1px 2px rgba(61, 61, 61, 0.84);
+    letter-spacing: 2px;
+}
+#welcome{
+    width: 825pt;
+    margin: 0 auto;
+}
+.user-profile > a{
+    color: rgba(243, 244, 244, 0.84);
+    display: inline-block;
+    padding: 0 10px;
+}
+.user-profile > a:hover{
+    color: rgba(10, 10, 10, 0.84);
+    background: rgba(37, 197, 244, 0.84);
+    transition: color 0.3s, background 0.3s;
+}
+#welcome > .user-icons{
+    float:right;
+    margin-right: 5px;
+}
+.user-icons > a{
+    color: rgba(251,251,251,0.82);
+}
+.user-icons > a > span{
+    font-size: 20px;
+}
+.user-icons > a:hover{
+    color: rgba(37, 197, 244, 0.84);
+}
+.user-icons > a:focus{
+    color: rgba(255, 73, 91, 0.8);
+}
+
+.logo{
+    display: inline-block;
+    width: 150px;
+    height: 130px;
+    background: url('../image/logo.png') bottom;
+}
+
+.logo-site h1{
+    margin-top: 10px;
+    width: 150px;
+    height: 50px;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+}
+.logo-site{
+    float: left;
+}
+.nav-bar{
+    float: right;
+}
+
+.auto-margin{
+    width: 825pt;
+    margin: 0 auto;
+    transition-duration: .3s;
+}
+
+#menu-box{
+    background: hsla(0, 0%, 100%, 0.95);
+    /*background: rgba(233, 233, 233, 0.98);*/
+    box-shadow: inset 0 1px 1px rgba(163, 163, 163, 0.48),
+    inset 0 -1px 1px rgba(204, 204, 204, 0.48),
+    inset 1px 0 1px rgba(204, 204, 204, 0.48),
+    inset -1px 0 1px rgba(204, 204, 204, 0.48);
+    z-index: 99;
+    transition: 0.3s;
+}
+#menu-box:hover{
+    background: hsla(0, 0%, 100%, 0.95);
+    transition-duration: .3s;
+}
+.sticky{
+    background: hsla(0, 0%, 100%, 0.95);
+    position: sticky;
+    top: 0;
+}
+#menu-box.shadow{
+    box-shadow: 0 5px 10px rgba(163, 163, 163, 0.48);
+    background: hsla(0, 0%, 100%, 0.95);
+}
+.shadow{
+    /*background: hsla(0, 0%, 100%, 0.95);*/
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+.active{
+    /*rgba(62,212,255,0.82)*/
+    border-bottom: 2px solid rgba(37, 122, 255, 0.82);
+}
+.nav-bar{
+    margin-right: 20px;
+}
+
+.nav-bar > ul > li{
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.nav-bar > ul > li:hover{
+    background: rgba(37, 197, 244, 0.48);
+    transition: background 0.3s, color 0.3s;
+}
+.nav-bar > ul > li:hover a{
+    color: white;
+    transition: background 0.3s, color 0.3s;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus{
+    color: #333;
+    background: transparent;
+}
+.nav-pills>li.active>a:hover{
+    color: white;
+    background: transparent;
+}
+.nav-bar .nav-pills>li>a{
+    color: #333;
+    display: inline-block;
+    width: 100%;
+    padding: 17px 0;
+}
+
+.search-bar{
+    width: 240px;
+    /*margin-right: -50px;*/
+    float: right;
+}
+.search-bar a{
+    display: inline-block;
+    transform: translateY(50%);
+    margin-left: -31px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    color: black;
+}
+.search-bar a:focus{
+    color: black;
+}
+.search-bar a:active{
+    color: rgba(150, 150, 150, 0.9);
+}
+.search-bar span{
+    line-height: 1.5;
+}
+#search{
+    background: transparent;
+    box-shadow: inset 0 1px 1px rgba(13, 13, 13, 0.65);
+    transition-duration: .5s;
+    color: rgba(23,116,244,0.72);
+}
+#search:focus{
+    box-shadow: inset 0 -1px 1px rgba(36, 103, 255, 0.65);
+    transition-duration: .5s;
+}
+#search:focus+a{
+    color: white;
+    background: rgba(23,116,244,0.72);
+}
+#search:focus::-webkit-input-placeholder{
+    color: rgba(23, 116, 244, 0.72);
+}
+.nav-search:focus+a{
+    background: rgba(23, 116, 244, 0.72);
+}
+#search::-webkit-input-placeholder{
+    color: #636363;
+}
+.icon-search{
+    font-size: 18px;
+}
+.search{
+    display: inline-block;
+    height: 60px;
+}
+.input-search{
+    height: 60%;
+    transform: translateY(35%);
+    border-radius: 40px;
+    transition: 0.5s;
+    width: 80%;
+    display: block;
+    background: rgba(220, 220, 220, 0.84);
+    border: none;
+}
+
+.input-search:focus{
+    border: 0;
+    box-shadow: none;
+    transition-duration: 0.5s;
+}
+
+.nav-search{
+    height: 60%;
+    transform: translateY(20%);
+    border-radius: 40px;
+    transition: width 0.5s;
+    width: 80%;
+    display: block;
+    background: rgba(95, 95, 95, 0.84);
+    border: none;
+}
+.search-item{
+    padding-left: 40px;
+}
+.search-item .search{
+    width: 100%;
+}
+.nav-menu a{
+    padding-left: 40px;
+    color: white;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+.search-item a{
+    padding-left: 0;
+    display: inline-block;
+    margin-left: -30px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    color: white;
+    vertical-align: middle;
+    transform: translateY(0%);
+    transition: background 0.3s;
+}
+.nav-menu a:focus, .search-item a:focus{
+    color: white;
+}
+.nav-menu li:hover a, .nav-menu a:active, .search-item a:active{
+    color: rgba(23, 116, 244, 0.72);
+}
+li.search-item:hover a{
+    color: white!important;
+}
+.search-item input{
+    color: rgba(243,243,243,0.84);
+}
+.search-item .icon-search{
+    display: inline-block;
+    transform: translate(45%, -50%);
+}
+
+#toggle-menu{
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    text-decoration: none;
+    color: rgba(34, 115, 244, 0.79);
+    display: none;
+}
+#toggle-menu:hover{
+    color: rgba(37,197,244,0.95);
+}
+#toggle-menu:focus{
+    color: rgba(37,197,244,0.95);
+}
+#toggle-menu span{
+    font-size: 18px;
+}
+.nav-menu{
+    position:absolute;
+    left: 0;
+    top: 60px;
+    right: auto;
+    width: 60%;
+    height: 400px;
+    background: rgba(13, 13, 13, 0.89);
+    color: white;
+    display: none;
+    z-index: 9999;
+}
+.nav-menu li{
+    text-align: left;
+    border-bottom: 1px solid rgba(60,60,60,0.89);
+    cursor: pointer;
+    height: 50px;
+    font: 18px/2.5 'mircosoft';
+}
+.nav-menu li:first-child{
+    text-align: center;
+    padding: 0;
+}
+.nav-menu li:hover{
+    color: rgba(34, 115, 244, 0.79);
+    box-shadow: inset 0 1px 10px rgba(30, 30, 30, 0.89),
+    inset 0 -1px 10px rgba(30, 30, 30, 0.89),
+    inset 1px 0 10px rgba(30, 30, 30, 0.89),
+    inset -1px 0 10px rgba(30, 30, 30, 0.89);
+}
+.nav-menu .search-item:hover{
+    color: inherit;
+    cursor: inherit;
+}
+@media only screen and (max-width: 825pt) {
+    .search-bar{
+        float: left;
+    }
+    .search{
+        float: right;
+    }
+    .nav-bar{
+        float:right;
+    }
+    .auto-margin{
+        width: 625pt;
+        margin: 0 auto;
+    }
+    #top-header{
+        display: none;
+    }
+}
+@media only screen and (max-width: 625pt) {
+    .auto-margin{
+        width: 80%;
+        margin: 0 auto;
+    }
+    .nav-bar{
+        float: right;
+        margin-right: 0;
+    }
+    .search-bar{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 380pt) {
+    .nav-bar{
+        display: none;
+    }
+    .auto-margin{
+        width: 95%;
+        margin: 0 auto;
+    }
+    .search-bar{
+        display: none;
+    }
+    #toggle-menu{
+        display: block;
+        float: right;
+        position: static;
+        transform: translateY(100%);
+    }
+    .logo{
+        width: 150px;
+        height: 70px;
+        background: url('../image/sm-logo.png') bottom;
+    }
+    .logo-site{
+        float: right;
+    }
+    .logo-site h1{
+        height: 40px;
+        margin-top: 5px;
+        vertical-align: middle;
+    }
+    #toggle-menu{
+        vertical-align: middle;
+        transform: translateY(80%);
+        float: left;
+    }
+    .nav-menu{
+        top: 45px;
+    }
+}

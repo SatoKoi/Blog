@@ -1,0 +1,19 @@
+{% extends 'background_base.html' %}
+{% load staticfiles %}
+{% block title %}
+    后台管理系统 - 发送邮件
+{% endblock %}
+{% block toggle_bar %}
+    <div class="toggle-bar clear-fix">
+        <ul class="row">
+            <li class="col-xs-12 text-center active"><span>邮箱发送成功</span></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block form %}
+    <div class="row">
+            <div class="auto-box text-center" style="transform: translateY(200%); font-size: 20px;">
+                <a href="{% url 'users:login' %}">[点击回到首页]</a>
+            </div>
+        </div>
+{% endblock %}

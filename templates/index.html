@@ -1,0 +1,155 @@
+{% extends 'index_base.html' %}
+{% load staticfiles %}
+{% block left_content %}
+<section class="left-content">
+    <div id="img-container" class="img-slide">
+        <div class="img-list">
+            {% for page in lunbo_pages %}
+            <a href="{% url 'blog:detail' page.id %}"><img src="{{ MEDIA_URL }}{{ page.image }}"></a>
+            {% endfor %}
+        </div>
+        <div class="img-button">
+            <span data-index="1" class="on"></span>
+            <span data-index="2"></span>
+            <span data-index="3"></span>
+            <span data-index="4"></span>
+            <span data-index="5"></span>
+        </div>
+        <div class="img-desc clear-fix">
+            <a href="javascript:;" id="prev" class="arrow">&lt;</a>
+            {% for page in lunbo_pages %}
+            <a href="{% url 'blog:detail' page.id %}">
+                <p data-index="{{ forloop.counter }}" {% ifequal forloop.counter 1%}class="on" style="display: block"{% endifequal %}>{{ page.title }}</p>
+            </a>
+            {% endfor %}
+            <a href="javascript:;" id="next" class="arrow">&gt;</a>
+        </div>
+    </div>
+    <div class="bread-crumbs independent index-bread">
+        <ul class="clear-fix">
+            <li><a href="{% url 'blog:index' %}"><span class="icon-home">首页</span></a></li>
+        </ul>
+    </div>
+    {% for page in single_pages.object_list %}
+    <article class="article-content">
+        <header class="entry-header">
+            <h3 class="entry-title"><a href="{% url 'blog:detail' page.id %}">{{ page.title }}</a></h3>
+            <ul class="entry-meta clear-fix">
+                <li class="time-meta"><span class="icon-calendar">&nbsp;{{ page.add_time }}</span></li>
+                <li class="archive-meta"><span class="icon-folder-close-alt">&nbsp;<a href="{% url 'blog:category' page.category.id %}">{{ page.category }}</a></span></li>
+                <li class="author-meta"><span class="icon-user">&nbsp;<a href="{% url 'blog:author' page.author.id %}">{{ page.author }}</a></span></li>
+                <li class="comments-meta"><span class="icon-comments-alt">&nbsp;{{ page.comments }} 条评论</span></li>
+                <li class="views-meta"><span class="icon-eye-open">&nbsp;{{ page.views }} 人阅读</span></li>
+            </ul>
+        </header>
+        <div class="entry-content clear-fix">
+            <figure class="fl">
+                <a href="{% url 'blog:detail' page.id %}">
+                    <img class="entry-img" src="{{ MEDIA_URL }}{{ page.image }}">
+                </a>
+            </figure>
+            <div class="fr index-p">
+                {% if page.detail|length > 350 %}
+                {{ page.detail|slice:"350"|striptags|safe }}......
+                {% else %}
+                {{ page.detail|striptags|safe }}
+                {% endif %}
+            </div>
+        </div>
+        <footer class="entry-footer clear-fix">
+            <div class="footer-tag fl">
+                <ul>
+                    {% for tag in page.tags|split_tags %}
+                    <li><a href="{% url 'blog:tag' tag %}">{{ tag }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div >
+            <div class="footer-enter fr">
+                <a href="{% url 'blog:detail' page.id %}">>阅读全文</a>
+            </div>
+        </footer>
+    </article>
+    {% endfor %}
+
+    <!--分页模块-->
+    <ul class="pagination pull-right">
+        {% if single_pages.has_previous %}
+        <li><a href="?page={{ single_pages.pages|first }}"><<</a></li>
+        <li><a href="?{{ single_pages.previous_page_number.querystring }}"><</a></li>
+        {% else %}
+        <li><a href="javascript:void(0);"><<</a></li>
+        <li><a href="javascript:void(0);"><</a></li>
+        {% endif %}
+        {% for page in single_pages.pages %}
+            {% if page %}
+                {% ifequal page single_pages.number %}
+                <li><a href="javascript:void(0);" class="selected">{{ page }}</a></li>
+                {% else %}
+                <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                {% endifequal %}
+            {% else %}
+                <li class="none"><a href="">...</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if single_pages.has_next %}
+        <li><a href="?{{ single_pages.next_page_number.querystring }}">></a></li>
+        <li><a href="?page={{ single_pages.pages|last }}">>></a></li>
+        {% else %}
+        <li><a href="javascript:void(0);">></a></li>
+        <li><a href="javascript:void(0);">>></a></li>
+        {% endif %}
+    </ul>
+</section>
+{% endblock %}
+{% block right_content %}
+<section class="right-content right-fixed">
+    <div class="site-information right-list">
+        <div class="panel-heading">
+            <h4><i class="icon-sitemap"></i>站点信息</h4>
+        </div>
+        <ul>
+            <li class="list-group-item">分类: &nbsp;{{ site_info.get_category_nums }}个</li>
+            <li class="list-group-item">运行: &nbsp;{{ site_info.get_lasting_time }}天</li>
+            <li class="list-group-item">文章: &nbsp;{{ site_info.get_article_nums }}篇</li>
+            <li class="list-group-item">评论: &nbsp;{{ site_info.get_comments_nums }}条</li>
+            <li class="list-group-item">访问: &nbsp;{{ site_info.get_total_views }}次</li>
+            <li class="list-group-item">标签: &nbsp;{{ site_info.get_tag_nums }}个</li>
+        </ul>
+    </div>
+    <div class="article-sort right-list">
+        <div class="panel-heading">
+            <h4><i class="icon-folder-open"></i>分类信息</h4>
+        </div>
+        <ul class="clear-fix">
+            {% for item in category %}
+            <li class="list-group-item">{{ item.name|to_capitalize }}<span class="tag-counter">{{ item.get_counts }}</span></li>
+            {% endfor%}
+        </ul>
+    </div>
+    <div class="article-archiving right-list">
+        <div class="panel-heading">
+            <h4><i class="icon-book"></i>文章归档</h4>
+        </div>
+        <ul>
+            {% for item in archiving %}
+            <li class="list-group-item"><a href="{% url 'blog:date' item.year|concat_string:'-'|concat_string:item.month|stringformat:'s' %}" title="{{ item.year }}年{{ item.month|hans_mapping }}月文章归档">
+                {{ item.year }}年{{ item.month|hans_mapping }}月</a>
+                                       ({{ item.nums }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="cloud-tag right-list">
+        <div class="panel-heading">
+            <h4><i class="icon-tags"></i>标签云</h4>
+        </div>
+        <ul class="clear-fix tag-container">
+            {% for tag in tags %}
+            <li class="tag-item"><a href="{% url 'blog:tag' tag.tag_name %}" title="共{{ tag.nums }}个话题">{{ tag.tag_name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+<script type="text/javascript" src="{% static 'js/slide.js' %}"></script>
+{% endblock %}

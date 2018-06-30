@@ -1,0 +1,135 @@
+{% extends 'index_base.html' %}
+{% load staticfiles %}
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/syntaxhighlight.css' %}">
+    <link rel="stylesheet" href="{% static 'css/schedulebox.css' %}">
+    <link rel="stylesheet" href="{% static 'js/syntaxhighlighter_3.0.83/styles/shCore.css' %}">
+    <link rel="stylesheet" href="{% static 'js/syntaxhighlighter_3.0.83/styles/shThemeRDark.css' %}">
+{% endblock %}
+{% block fixed_js %}
+    <script type="text/javascript" src="{% static 'js/syntaxhighlighter_3.0.83/src/shCore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/syntaxhighlighter_3.0.83/src/shAutoloader.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/schedule/schedule.js' %}"></script>
+{% endblock %}
+{% block index_active %}
+{% endblock %}
+{% block left_content %}
+<section class="left-content">
+    <article class="article-detail clear-fix">
+        <div class="bread-crumbs">
+            <ul class="clear-fix">
+                <li><a href="{% url 'blog:index' %}"><span class="icon-home">首页</span></a>&nbsp;>&nbsp;</li>
+                <li><a href="{% url 'blog:category' page.category.id %}"><span class="icon-folder-open">{{ page.category }}</span></a>&nbsp;>&nbsp;</li>
+                <li>正文</li>
+            </ul>
+        </div>
+        <header class="entry-header">
+            <h3 class="entry-title">{{ page.title }}</h3>
+            <ul class="entry-meta clear-fix">
+                <li class="time-meta"><span class="icon-calendar">&nbsp;{{ page.add_time }}</span></li>
+                <li class="archive-meta"><span class="icon-folder-close-alt">&nbsp;<a href="{% url 'blog:category' page.category.id %}">{{ page.category }}</a></span></li>
+                <li class="author-meta"><span class="icon-user">&nbsp;<a href="{% url 'blog:author' page.author.id %}">{{ page.author }}</a></span></li>
+                <li class="comments-meta"><span class="icon-comments-alt">&nbsp;{{ page.comments }} 条评论</span></li>
+                <li class="views-meta"><span class="icon-eye-open">&nbsp;{{ page.views }} 人阅读</span></li>
+            </ul>
+        </header>
+        <div class="entry-content">
+            <div class="entry-detail">
+                {% autoescape off%}
+                {{ page.detail }}
+                {% endautoescape %}
+            </div>
+        </div>
+        <div class="footer-tag">
+            <ul class="clear-fix">
+                {% for tag in page.tags|split_tags %}
+                <li><a href="{% url 'blog:tag' tag %}">{{ tag }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="copyright-declaration">
+            <ul>
+                <li>本文地址: <a href="{% url 'blog:detail' page.id %}" title="python">{{ host }}{% url 'blog:detail' page.id %}</a></li>
+                <li>版权声明: 本文为原创文章, 版权归{{ page.author }}所有, 欢迎分享本文, 转载请注明出处</li>
+            </ul>
+        </div>
+        <nav class="article-navigation clear-fix">
+            <div class="nav-left to-inline-block">
+                <span class="icon-double-angle-left"></span>
+                {% if previous_page %}
+                <a href="{% url 'blog:detail' previous_page.id %}" class="previous-title">{{ previous_page.title }}</a>
+                {% else %}
+                    <span>没有了</span>
+                {% endif %}
+            </div>
+            <div class="nav-right to-inline-block">
+                {% if next_page %}
+                <a href="{% url 'blog:detail' next_page.id %}" class="previous-title">{{ next_page.title }}</a>
+                {% else %}
+                    <span>没有了</span>
+                {% endif %}
+                <span class="icon-double-angle-right"></span>
+            </div>
+        </nav>
+    </article>
+    <div class="article-relation">
+        <h4 class="icon-book">&nbsp;相关文章</h4>
+        <ul class="clear-fix">
+            {% for tag_item in tag_maps %}
+            <li>•&nbsp;<a href="{% url 'blog:detail' tag_item.article.id %}" title="{{ tag_item.article.title }}">{{ tag_item.article.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}
+{% block right_content %}
+<section class="right-content right-fixed">
+    <div id="date-box"></div>
+    <div class="article-archiving right-list">
+        <div class="panel-heading">
+            <h4><i class="icon-book"></i>文章归档</h4>
+        </div>
+        <ul>
+            {% for item in archiving %}
+            <li class="list-group-item"><a href="{% url 'blog:date' item.year|concat_string:'-'|concat_string:item.month|stringformat:'s' %}" title="{{ item.year }}年{{ item.month|hans_mapping }}月文章归档">
+                {{ item.year }}年{{ item.month|hans_mapping }}月</a>
+                                       ({{ item.nums }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="article-sort right-list">
+        <div class="panel-heading">
+            <h4><i class="icon-folder-open"></i>分类信息</h4>
+        </div>
+        <ul class="clear-fix">
+            {% for item in category %}
+            <li class="list-group-item">{{ item.name|to_capitalize }}<span class="tag-counter">{{ item.get_counts }}</span></li>
+            {% endfor%}
+        </ul>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+<script type="text/javascript" src="{% static 'js/highlightobj.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/date.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+        var date_array = [];
+        date_array = {{ date_msg|safe }};
+        var date_cache = [];
+        $.each(date_array, function(index, date) {
+            date_cache.push(parseInt(date.substring(8)) - 1);
+        });
+        var currentMonthDays = $('#date-box').find('.current-month span');
+        $.each(date_cache, function(index, item) {
+            currentMonthDays.eq(item).addClass('has-event');
+        });
+        if(!window.localStorage) {
+            alert("为获得更好的体验, 浏览器应支持本地存储")
+        } else {
+            var storage = window.localStorage;
+            storage.setItem("date_cache", date_cache);
+        }
+    });
+</script>
+{% endblock %}

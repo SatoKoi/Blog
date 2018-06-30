@@ -1,0 +1,11 @@
+{% extends 'category.html' %}
+{% load staticfiles %}
+{% block extra_content %}
+    <div class="author-msg">
+        <img alt="{{ author.username }}" src="{{ MEDIA_URL }}{{ author.image }}">
+        <h3>作者: <span class="author">{{ author.username }}</span> 文章: <span class="article-count">{{ count }}</span> 篇</h3>
+    </div>
+{% endblock %}
+{% block bread-crumbs %}
+<li><a href="{% url 'blog:author' bread_dict.id %}"><span class="icon-user">{{ bread_dict.name }}</span></a></li>
+{% endblock %}

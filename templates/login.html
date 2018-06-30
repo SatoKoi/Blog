@@ -1,0 +1,121 @@
+{% extends 'background_base.html' %}
+{% load staticfiles %}
+{% block title %}
+    后台管理系统 - 登录页面
+{% endblock %}
+{% block toggle_bar %}
+    <div class="toggle-bar clear-fix">
+        <ul class="row">
+            <li class="col-xs-6 text-center active" id="loginButton"><span>登录</span></li>
+            <li class="col-xs-6 text-center" id="registerButton"><span>注册</span></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block form %}
+    <div class="login-form form form-active">
+            <form role="form" autocomplete="off" method="post" action="{% url 'users:login' %}" >
+                <div class="form-group clear-fix">
+                    <div class="button-inline fl">
+                        <button type="button" class="btn btn-default fr" id="userButton">
+                            <span class="icon-user"></span>
+                        </button>
+                    </div>
+                    <div class="input-inline fr">
+                        <input class="form-control " type="text" placeholder="请输入用户名" name="username" id="username"
+                               value="{{ login_form.username.value|default_if_none:"" }}">
+                    </div>
+                </div>
+                <p class="jstips-1 tip"></p>
+                <div class="form-group clear-fix">
+                    <div class="button-inline fl ">
+                        <button type="button" class="btn btn-default fr"  id="pwdButton">
+                            <span class="icon-key" id="icon-key1"></span>
+                        </button>
+                    </div>
+                    <div class="input-inline fr">
+                        <input class="form-control " type="password" placeholder="请输入密码" name="password" id="password"
+                                value="{{ login_form.password.value|default_if_none:"" }}">
+                    </div>
+                </div>
+                <p class="jstips-2 tip"></p>
+                <div class="error-input form-tips"></div>
+                <div class="auto-box text-right">
+                    <a id="forgetpwd" href="{% url 'users:forgetpwd' %}">[忘记密码?]</a>
+                </div>
+                <div class="form-group" id="submit">
+                    <div class="submit-button">
+                        <button type="button" class="btn-dark btn form-control" id="submitButton">
+                            <span>登录</span>
+                        </button>
+                    </div>
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+{% endblock %}
+{% block custom_msg %}
+<section>
+    <div class="msg-container {% if status != "info" and status != "danger" %}hidden{% endif %} {% if status == "info" %}panel-primary shadow-info
+    {% elif status == "danger" %}panel-danger shadow-danger{% endif %}">
+        <p class="text-center msg-vertical font-bigger {% if status == "info" %}font-info
+        {% elif status == "danger" %}font-danger{% endif %}">{{ msg|default_if_none:"" }}</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block custom_js %}
+{% if status %}
+<script type="text/javascript">
+$(function () {
+    setTimeout(msgHide, 3000);
+});
+</script>
+{% endif %}
+<script type="text/javascript">
+var $submitButton = $("#submitButton");
+$submitButton.on('click', function() {
+    var $username = $("#username");
+    var $password = $("#password");
+    var $errorInput = $(".error-input");
+    var msg = {
+        login: false
+    };
+    if (!smUserVarify($username) || !smPwdVarify($password)) {
+        return;
+    }
+    $.ajax({
+        url: '{% url "users:login" %}',
+        cache: false,
+        type: "POST",
+        data: {
+            username: $username.val(),
+            password: $password.val(),
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        async: true,
+        beforeSend: function(XMLHttpRequest) {
+            $errorInput.text('');     // 清空错误信息
+            $submitButton.find('span').text('登录中...');
+            $submitButton.attr('disabled', 'disabled');
+        },
+        success: function(data) {
+            if(data.status == "failure") {
+                 $errorInput.text(data.msg);
+            } else if(data.status == "success"){
+                msg.login = true;
+                window.location.href = '/xadmin/';        // 跳转到后台
+            }
+        },
+        complete: function(XMLHttpRequest){
+            if(msg.login === true) {
+                $submitButton.find('span').text('登录成功, 正在跳转!...').css('color', '#AF2115');
+                $submitButton.attr('disabled', 'disabled');
+            } else {
+                $submitButton.find('span').text('登录');
+                $submitButton.removeAttr('disabled');
+            }
+        }
+    })
+});
+</script>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'background_base.html' %}
+{% load staticfiles %}
+{% block title %}
+    后台管理系统 - 登录页面
+{% endblock %}
+{% block container %}
+    register-container
+{% endblock %}
+{% block toggle_bar %}
+    <div class="toggle-bar clear-fix">
+        <ul class="row">
+            <li class="col-xs-6 text-center" id="loginButton"><span>登录</span></li>
+            <li class="col-xs-6 text-center active" id="registerButton"><span>注册</span></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block form %}
+    <div class="register-form form form-active">
+        <form role="form" autocomplete="off" method="post" action="{% url 'users:register'%}" id="register_form">
+            <div class="form-group clear-fix">
+                <div class="button-inline fl">
+                    <button type="button" class="btn btn-default fr" id="emailButton">
+                        <span class="icon-envelope-alt"></span>
+                    </button>
+                </div>
+                <div class="input-inline fr">
+                    <input class="form-control " type="text" placeholder="请输入邮箱" name="email" id="email" value="{{ register_form.email.value|default_if_none:"" }}">
+                </div>
+            </div>
+            <p class="jstips-1 tip"></p>
+            <div class="form-group clear-fix">
+                <div class="button-inline fl">
+                    <button type="button" class="btn btn-default fr" id="userButton">
+                        <span class="icon-user"></span>
+                    </button>
+                </div>
+                <div class="input-inline fr">
+                    <input class="form-control " type="text" placeholder="请输入用户名" name="username" id="username"  value="{{ register_form.username.value|default_if_none:"" }}">
+                </div>
+            </div>
+            <p class="jstips-2 tip"></p>
+            <div class="form-group clear-fix">
+                <div class="button-inline fl ">
+                    <button type="button" class="btn btn-default fr" id="pwdButton">
+                        <span class="icon-key" id="icon-key2"></span>
+                    </button>
+                </div>
+                <div class="input-inline fr">
+                    <input class="form-control " type="password" placeholder="请输入密码" name="password" id="password" value="{{ register_form.password.value|default_if_none:"" }}">
+                </div>
+            </div>
+            <p class="jstips-3 tip"></p>
+            <div class="form-group clear-fix">
+                <div class="button-inline fl ">
+                    <button type="button" class="btn btn-default fr" id="captchaButton">
+                        <span class="icon-lock"></span>
+                    </button>
+                </div>
+                <div class="input-inline fr">
+                    {{ register_form.captcha }}
+                </div>
+            </div>
+            <p class="jstips-4 tip"></p>
+            <div class="error-input form-tips"></div>
+            <div class="auto-box text-right">
+                <a id="hasaccount" href="javascript:void(0);">[已有账号?]</a>
+            </div>
+            <div class="form-group" id="register">
+                <div class="register-button">
+                    <button type="button" class="btn-dark btn form-control" id="register-button">
+                        <span>注册</span>
+                    </button>
+                </div>
+            </div>
+            {% csrf_token %}
+        </form>
+</div>
+{% endblock %}
+{% block custom_js %}
+<script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+<script type="text/javascript">
+var $registerButton = $("#register-button");
+$registerButton.on('click', function(){
+    var $email = $('#email');
+    var $username = $("#username");
+    var $password = $("#password");
+    var $captcha_0 = $("#id_captcha_0");
+    var $captcha_1 = $("#id_captcha_1");
+    var $errorInput = $(".error-input");
+    var msg = {
+        register: false,
+        token: ''
+    };
+    if (!smEmailVarify($email) || !smUserVarify($username) || !smPwdVarify($password) || !smCodeVarify($captcha_0, $captcha_1)) {
+        return;
+    }
+    $.ajax({
+        url: '{% url "users:register" %}',
+        cache: false,
+        type: 'POST',
+        data: {
+            email: $email.val(),
+            username: $username.val(),
+            password: $password.val(),
+            captcha_0: $captcha_0.val(),
+            captcha_1: $captcha_1.val(),
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        async: true,
+        beforeSend: function(XMLHttpRequest) {
+            $errorInput.text('');     // 清空错误信息
+            $registerButton.find('span').text('正在注册...');
+            $registerButton.attr('disabled', 'disabled');
+        },
+        success: function (data) {
+            if(data.status == "failure") {
+                $captcha_1.val('');
+                $errorInput.text(data.msg);
+            } else if(data.status == "success"){
+                msg.register = true;
+                msg.token = data.token;
+            }
+        },
+        complete: function(XMLHttpRequest){
+            if(msg.register === true) {
+                $registerButton.find('span').text('注册成功!已发送邮件, 请查收...').css('color', '#AF2115');
+                $registerButton.attr('disabled', 'disabled');
+                setTimeout(function(){window.location.href = '/success/' + msg.token + '/';}, 2000);
+            } else {
+                refresh_captcha({"data": {"form_id": "register_form"}});
+                $registerButton.find('span').text('注册');
+                $registerButton.removeAttr('disabled');
+            }
+        }
+    })
+})
+</script>
+{% endblock %}

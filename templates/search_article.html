@@ -1,0 +1,16 @@
+{% extends 'category.html' %}
+{% load staticfiles %}
+{% block extra_content %}
+<div class="search-msg">
+    <h4 class="text-center">共搜索到 {{ count }} 篇文章</h4>
+</div>
+{% endblock %}
+{% block article_content %}
+    <div class="all-search-articles">
+        <ul class="article-list clear-fix">
+            {% for page in pages.object_list %}
+            <li class="list-group-item"><a href="{% url 'blog:detail' page.id %}">{{ page.title }}</a><span class="article-date">{{ page.add_time }}</span></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

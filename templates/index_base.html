@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KoiSato的个人博客</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-3.3.7.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/top-header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bottom-footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/body-container.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    {% block custom_css %}{% endblock %}
+    <script type="text/javascript" src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui/jquery-ui.js' %}"></script>
+    {% block fixed_js %}{% endblock %}
+</head>
+<body>
+<div class="transform-body">
+<div class="specs-background">
+    <img src="{% static 'image/Nipic_11635558_20161218095809142000.jpg' %}" />
+</div>
+<header>
+    <nav id="top-header">
+        <ul class="clear-fix nav-pills" id="welcome">
+            <li id="myblog"><a href="{% url 'blog:index' %}"> KoiSato的个人博客&nbsp;&nbsp;&nbsp;</a></li>
+            <li class="user-profile text-center"><a href="{% url 'users:login' %}">后台管理</a></li>
+            <li class="user-icons"><a href="mailto:827188553@qq.com" title="email" target="_blank"><span class="icon-envelope"></span></a></li>
+            <li class="user-icons"><a href="https://www.github.com/SatoKoi" title="github" target="_blank"><span class="icon-github"></span></a></li>
+        </ul>
+    </nav>
+    <div id="menu-box">
+        <div class="auto-margin" >
+            <div class="top-menu clear-fix">
+                <a href="javascript:void(0);" id="toggle-menu"><span class="icon-tasks"></span></a>
+                <div class="nav-menu">
+                    <ul>
+                        <li><span class="icon-remove-sign"></span></li>
+                        <li><a href="{% url 'blog:index' %}">首页</a></li>
+                        <li><a href="{% url 'blog:message' %}">留言</a></li>
+                        <li><a href="{% url 'blog:publish' %}">发表</a></li>
+                        <li><a href="{% url 'users:login' %}">后台</a></li>
+                        <li class="search-item">
+                            <form class="search">
+                                <input type="search" class="form-control nav-search col-xs-1" placeholder="搜索" name="nav_search">
+                                <a href="javascript:void(null);"> <span class="icon-search"></span></a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-site">
+                    <h1>
+                        <a href="{% url 'blog:index' %}" title="KoiSato的个人博客, 专注于python编程" class="logo"></a>
+                    </h1>
+                </div>
+                <div class="search-bar">
+                    <form class="search">
+                        <input type="search" id="search" class="input-search form-control col-xs-1" placeholder="搜索" name="search">
+                        <a href="javascript:void(null);"> <span class="icon-search"></span></a>
+                    </form>
+                </div>
+                <div class="nav-bar">
+                    <ul class="nav-pills clear-fix">
+                        <li class="{% block index_active %}active{% endblock %}"><a href="{% url 'blog:index' %}">首页</a></li>
+                        <li class="{% block message_active %}{% endblock %}"><a href="{% url 'blog:message' %}">留言</a></li>
+                        <li class="{% block publish_active %}{% endblock %}"><a href="{% url 'blog:publish' %}">发表</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section>
+    <div class="body-container">
+        <div class="auto-margin clear-fix">
+            {% block left_content %}
+            {% endblock  %}
+            {% block right_content %}
+            {% endblock %}
+        </div>
+        <section class="widgets visible-lg">
+            <ul class="rightWidgets">
+                <li class="scrollToTop"><i class="icon-circle-arrow-up" ></i></li>
+            </ul>
+        </section>
+    </div>
+</section>
+<footer>
+        <div id="footer">
+            <div class="footer-margin">
+                <div class="site-links clear-fix">
+                    <ul>
+                        <li><strong>友情链接</strong></li>
+                        <li>•<a href="https://docs.djangoproject.com/en/2.0/" title="Django官方文档">Django</a></li>
+                        <li>•<a href="https://www.runoob.com/" title="菜鸟教程">菜鸟教程</a></li>
+                    </ul>
+                </div>
+                <div class="pks">
+                    <div class="collections">
+                        <p><strong>站点收藏</strong></p>
+                        <ul class="clear-fix">
+                            <li>•<a href="https://www.baidu.com/">百度搜索</a></li>
+                            <li>•<a href="https://www.aliyun.com/">阿里云</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="site-info ">
+                    Copyright&nbsp;©&nbsp;&nbsp;<a href="index.html" title="www.KoiSato.cn">www.KoiSato.cn</a>&nbsp;&nbsp;|&nbsp;
+                    <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">暂无备案</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+{% block custom_js %} {% endblock %}
+<script type="text/javascript" src="{% static 'js/fixed.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/form.js' %}"></script>
+</body>
+</html>

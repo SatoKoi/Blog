@@ -1,0 +1,109 @@
+{% extends 'background_base.html' %}
+{% load staticfiles %}
+{% block title %}
+    后台管理系统 - 重置密码
+{% endblock %}
+{% block toggle_bar %}
+    <div class="toggle-bar clear-fix">
+        <ul class="row">
+            <li class="col-xs-12 text-center active" id="loginButton"><span>您已通过验证, 请重置密码</span></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block form %}
+    <div class="resetpwd-form form form-active">
+            <form role="form" autocomplete="off" >
+                <div class="form-group clear-fix">
+                    <div class="button-inline fl">
+                        <button type="button" class="btn btn-default fr" id="pwdButton1">
+                            <span class="icon-key"></span>
+                        </button>
+                    </div>
+                    <div class="input-inline fr">
+                        <input class="form-control " type="password" placeholder="请输入新密码" name="password1">
+                    </div>
+                </div>
+                <p class="jstips-1 tip"></p>
+                <input type="hidden" name='email' value="{{ email }}"/>
+                <div class="form-group clear-fix">
+                    <div class="button-inline fl ">
+                        <button type="button" class="btn btn-default fr" id="pwdButton2">
+                            <span class="icon-lock"></span>
+                        </button>
+                    </div>
+                    <div class="input-inline fr">
+                        <input class="form-control " type="password" placeholder="请确认密码" name="password2">
+                    </div>
+                </div>
+                <p class="jstips-2 tip"></p>
+                <div class="error-input form-tips"></div>
+                <div class="auto-box text-right">
+                    <a id="forgetpwd" href="#">[联系管理员?]</a>
+                </div>
+                <div class="form-group" id="submit">
+                    <div class="submit-button">
+                        <button type="button" class="btn-dark btn form-control" id="resetPwdButton">
+                            <span>确认</span>
+                        </button>
+                    </div>
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+{% endblock %}
+{% block custom_js %}
+<script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+<script type="text/javascript">
+var $resetPwdButton = $("#resetPwdButton");
+$resetPwdButton.on('click', function(){
+    var $email = $('input[name="email"]');
+    var $password1 = $('input[name="password1"]');
+    var $password2 = $('input[name="password2"]');
+    var $errorInput = $(".error-input");
+    var msg = {
+        send: false
+    };
+    if (!smConfPwdVarify($password1, $password2)) {
+        return;
+    }
+    $.ajax({
+        url: '{% url "users:resetpwd" %}',
+        cache: false,
+        type: 'POST',
+        data: {
+            email: $email.val(),
+            password1: $password1.val(),
+            password2: $password2.val(),
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        async: true,
+        beforeSend: function(XMLHttpRequest) {
+            $errorInput.text('');     // 清空错误信息
+            $resetPwdButton.find('span').text('正在重置密码...');
+            $resetPwdButton.attr('disabled', 'disabled');
+        },
+        success: function (data) {
+            if(data.status == "failure") {
+                if(data.msg == "error"){
+                    window.location.href = {% url 'users:login' %} + "?msg=error&status=danger";
+                }
+                $captcha_1.val('');
+                $errorInput.text(data.msg);
+            } else if(data.status == "success"){
+                msg.send = true;
+            }
+        },
+        complete: function(XMLHttpRequest){
+            if(msg.send === true) {
+                $resetPwdButton.find('span').text('已重置密码...').css('color', '#AF2115');
+                $resetPwdButton.attr('disabled', 'disabled');
+                setTimeout(function(){window.location.href = {% url 'users:login' %} + "?msg=reset&status=info";}, 2000);
+            } else {
+                $resetPwdButton.find('span').text('确认');
+                $resetPwdButton.removeAttr('disabled');
+            }
+        }
+    })
+})
+</script>
+{% endblock %}

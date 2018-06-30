@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KoiSato的个人博客</title>
+    <link rel="stylesheet" href="../css/bootstrap-3.3.7.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/top-header.css">
+    <link rel="stylesheet" href="../css/bottom-footer.css">
+    <link rel="stylesheet" href="../css/body-container.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui/jquery-ui.js"></script>
+</head>
+<body>
+<div class="transform-body">
+<div class="specs-background">
+    <img src="../image/Nipic_11635558_20161218095809142000.jpg" />
+</div>
+<header>
+    <nav id="top-header">
+        <ul class="clear-fix nav-pills" id="welcome">
+            <li id="myblog"><a href="index.html"> KoiSato的个人博客&nbsp;&nbsp;&nbsp;</a></li>
+            <li class="user-profile text-center"><a href="login.html">登录</a></li>
+            <li class="user-profile text-center"><a href="register.html">注册</a></li>
+            <li class="user-icons"><a href="mailto:827188553@qq.com" title="email" target="_blank"><span class="icon-envelope"></span></a></li>
+            <li class="user-icons"><a href="https://www.github.com/SatoKoi" title="github" target="_blank"><span class="icon-github"></span></a></li>
+        </ul>
+    </nav>
+    <div id="menu-box">
+        <div class="auto-margin" >
+            <div class="top-menu clear-fix">
+                <a href="javascript:void(0);" id="toggle-menu"><span class="icon-tasks"></span></a>
+                <div class="nav-menu">
+                    <ul>
+                        <li><span class="icon-remove-sign"></span></li>
+                        <li>首页</li>
+                        <li>留言</li>
+                        <li>发表</li>
+                        <li class="search-item">
+                            <form class="search">
+                                <input type="search" class="form-control nav-search col-xs-1" placeholder="搜索" name="nav_search"
+                                       onfocus="$(this).parents('.search').find('.icon-search').css('background', 'rgba(23,116,244,0.72)')"
+                                       onblur="$('.icon-search').removeAttr('style')">
+                                <span class="icon-search"></span>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-site">
+                    <h1>
+                        <a href="index.html" title="KoiSato的个人博客, 专注于python编程" class="logo"></a>
+                    </h1>
+                </div>
+                <div class="search-bar">
+                    <form class="search">
+                        <input type="search" id="search" class="input-search form-control col-xs-1" placeholder="搜索" name="search"
+                               onfocus="$(this).parents('.search').find('.icon-search').css('background', 'rgba(24, 146, 255, 0.85)')" onblur="$('.icon-search').removeAttr('style')">
+                        <span class="icon-search"></span>
+                    </form>
+                </div>
+                <div class="nav-bar">
+                    <ul class="nav-pills clear-fix">
+                        <li class="active">首页</li>
+                        <li>留言</li>
+                        <li>发表</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section>
+    <div class="body-container">
+        <div class="auto-margin clear-fix">
+            <section class="left-content">
+            <div id="img-container" class="img-slide">
+                <div class="img-list">
+                    <img src="../image/006.jpeg">
+                    <img src="../image/007.jpeg">
+                    <img src="../image/012.jpg">
+                    <img src="../image/014.png">
+                    <img src="../image/018.jpg">
+                </div>
+                <div class="img-button">
+                    <span data-index="1" class="on"></span>
+                    <span data-index="2"></span>
+                    <span data-index="3"></span>
+                    <span data-index="4"></span>
+                    <span data-index="5"></span>
+                </div>
+                <div class="img-desc clear-fix">
+                    <a href="javascript:;" id="prev" class="arrow">&lt;</a>
+                    <p data-index="1" class="on" style="display: block">Python进阶练习1</p>
+                    <p data-index="2">Python进阶练习2</p>
+                    <p data-index="3">Python进阶练习3</p>
+                    <p data-index="4">Python进阶练习4</p>
+                    <p data-index="5">Python进阶练习5</p>
+                    <a href="javascript:;" id="next" class="arrow">&gt;</a>
+                </div>
+            </div>
+            <article class="article-content">
+                <header class="entry-header">
+                    <h3 class="entry-title"><a href="#">python入门教程</a></h3>
+                    <ul class="entry-meta clear-fix">
+                        <li class="time-meta"><span class="icon-calendar">&nbsp;2018/05/26</span></li>
+                        <li class="archive-meta"><span class="icon-folder-close-alt">&nbsp;<a href="#">python</a></span></li>
+                        <li class="author-meta"><span class="icon-user">&nbsp;<a href="#">KoiSato</a></span></li>
+                        <li class="comments-meta"><span class="icon-comments-alt">&nbsp;0 条评论</span></li>
+                        <li class="views-meta"><span class="icon-eye-open">&nbsp;666 人阅读</span></li>
+                    </ul>
+                </header>
+                <div class="entry-content clear-fix">
+                    <figure class="fl">
+                        <a href="#">
+                            <img class="entry-img" src="../image/007.jpeg">
+                        </a>
+                    </figure>
+                    <p class="fr">python入门教程python入门教程python入门教程python入门教程
+                        python入门教程python入门教程python入门教程python入门教程python入门教程p
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                    </p>
+                </div>
+                <footer class="entry-footer clear-fix">
+                    <div class="footer-tag fl">
+                        <ul>
+                            <li><a href="#">python</a></li>
+                            <li><a href="#">django</a></li>
+                        </ul>
+                    </div >
+                    <div class="footer-enter fr">
+                        <a href="#">>阅读全文</a>
+                    </div>
+                </footer>
+            </article>
+            <article class="article-content">
+                <header class="entry-header">
+                    <h3 class="entry-title"><a href="#">python入门教程</a></h3>
+                    <ul class="entry-meta clear-fix">
+                        <li class="time-meta"><span class="icon-calendar">&nbsp;2018/05/26</span></li>
+                        <li class="archive-meta"><span class="icon-folder-close-alt">&nbsp;<a href="#">python</a></span></li>
+                        <li class="author-meta"><span class="icon-user">&nbsp;<a href="#">KoiSato</a></span></li>
+                        <li class="comments-meta"><span class="icon-comments-alt">&nbsp;0 条评论</span></li>
+                        <li class="views-meta"><span class="icon-eye-open">&nbsp;666 人阅读</span></li>
+                    </ul>
+                </header>
+                <div class="entry-content clear-fix">
+                    <figure class="fl">
+                        <a href="#">
+                            <img class="entry-img" src="../image/007.jpeg">
+                        </a>
+                    </figure>
+                    <p class="fr">python入门教程python入门教程python入门教程python入门教程
+                        python入门教程python入门教程python入门教程python入门教程python入门教程p
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                    </p>
+                </div>
+                <footer class="entry-footer clear-fix">
+                    <div class="footer-tag fl">
+                        <ul>
+                            <li><a href="#">python</a></li>
+                            <li><a href="#">django</a></li>
+                        </ul>
+                    </div >
+                    <div class="footer-enter fr">
+                        <a href="#">>阅读全文</a>
+                    </div>
+                </footer>
+</article>
+            <article class="article-content">
+                <header class="entry-header">
+                    <h3 class="entry-title"><a href="#">python入门教程</a></h3>
+                    <ul class="entry-meta clear-fix">
+                        <li class="time-meta"><span class="icon-calendar">&nbsp;2018/05/26</span></li>
+                        <li class="archive-meta"><span class="icon-folder-close-alt">&nbsp;<a href="#">python</a></span></li>
+                        <li class="author-meta"><span class="icon-user">&nbsp;<a href="#">KoiSato</a></span></li>
+                        <li class="comments-meta"><span class="icon-comments-alt">&nbsp;0 条评论</span></li>
+                        <li class="views-meta"><span class="icon-eye-open">&nbsp;666 人阅读</span></li>
+                    </ul>
+                </header>
+                <div class="entry-content clear-fix">
+                    <figure class="fl">
+                        <a href="#">
+                            <img class="entry-img" src="../image/007.jpeg">
+                        </a>
+                    </figure>
+                    <p class="fr">python入门教程python入门教程python入门教程python入门教程
+                        python入门教程python入门教程python入门教程python入门教程python入门教程p
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                    </p>
+                </div>
+                <footer class="entry-footer clear-fix">
+                    <div class="footer-tag fl">
+                        <ul>
+                            <li><a href="#">python</a></li>
+                            <li><a href="#">django</a></li>
+                        </ul>
+                    </div >
+                    <div class="footer-enter fr">
+                        <a href="#">>阅读全文</a>
+                    </div>
+                </footer>
+            </article>
+            <article class="article-content">
+                <header class="entry-header">
+                    <h3 class="entry-title"><a href="#">python入门教程</a></h3>
+                    <ul class="entry-meta clear-fix">
+                        <li class="time-meta"><span class="icon-calendar">&nbsp;2018/05/26</span></li>
+                        <li class="archive-meta"><span class="icon-folder-close-alt">&nbsp;<a href="#">python</a></span></li>
+                        <li class="author-meta"><span class="icon-user">&nbsp;<a href="#">KoiSato</a></span></li>
+                        <li class="comments-meta"><span class="icon-comments-alt">&nbsp;0 条评论</span></li>
+                        <li class="views-meta"><span class="icon-eye-open">&nbsp;666 人阅读</span></li>
+                    </ul>
+                </header>
+                <div class="entry-content clear-fix">
+                    <figure class="fl">
+                        <a href="#">
+                            <img class="entry-img" src="../image/007.jpeg">
+                        </a>
+                    </figure>
+                    <p class="fr">python入门教程python入门教程python入门教程python入门教程
+                        python入门教程python入门教程python入门教程python入门教程python入门教程p
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                    </p>
+                </div>
+                <footer class="entry-footer clear-fix">
+                    <div class="footer-tag fl">
+                        <ul>
+                            <li><a href="#">python</a></li>
+                            <li><a href="#">django</a></li>
+                        </ul>
+                    </div >
+                    <div class="footer-enter fr">
+                        <a href="#">>阅读全文</a>
+                    </div>
+                </footer>
+            </article>
+            <article class="article-content">
+                <header class="entry-header">
+                    <h3 class="entry-title"><a href="#">python入门教程</a></h3>
+                    <ul class="entry-meta clear-fix">
+                        <li class="time-meta"><span class="icon-calendar">&nbsp;2018/05/26</span></li>
+                        <li class="archive-meta"><span class="icon-folder-close-alt">&nbsp;<a href="#">python</a></span></li>
+                        <li class="author-meta"><span class="icon-user">&nbsp;<a href="#">KoiSato</a></span></li>
+                        <li class="comments-meta"><span class="icon-comments-alt">&nbsp;0 条评论</span></li>
+                        <li class="views-meta"><span class="icon-eye-open">&nbsp;666 人阅读</span></li>
+                    </ul>
+                </header>
+                <div class="entry-content clear-fix">
+                    <figure class="fl">
+                        <a href="#">
+                            <img class="entry-img" src="../image/007.jpeg">
+                        </a>
+                    </figure>
+                    <p class="fr">python入门教程python入门教程python入门教程python入门教程
+                        python入门教程python入门教程python入门教程python入门教程python入门教程p
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                    </p>
+                </div>
+                <footer class="entry-footer clear-fix">
+                    <div class="footer-tag fl">
+                        <ul>
+                            <li><a href="#">python</a></li>
+                            <li><a href="#">django</a></li>
+                        </ul>
+                    </div >
+                    <div class="footer-enter fr">
+                        <a href="#">>阅读全文</a>
+                    </div>
+                </footer>
+            </article>
+            <article class="article-content">
+                <header class="entry-header">
+                    <h3 class="entry-title"><a href="#">python入门教程</a></h3>
+                    <ul class="entry-meta clear-fix">
+                        <li class="time-meta"><span class="icon-calendar">&nbsp;2018/05/26</span></li>
+                        <li class="archive-meta"><span class="icon-folder-close-alt">&nbsp;<a href="#">python</a></span></li>
+                        <li class="author-meta"><span class="icon-user">&nbsp;<a href="#">KoiSato</a></span></li>
+                        <li class="comments-meta"><span class="icon-comments-alt">&nbsp;0 条评论</span></li>
+                        <li class="views-meta"><span class="icon-eye-open">&nbsp;666 人阅读</span></li>
+                    </ul>
+                </header>
+                <div class="entry-content clear-fix">
+                    <figure class="fl">
+                        <a href="#">
+                            <img class="entry-img" src="../image/007.jpeg">
+                        </a>
+                    </figure>
+                    <p class="fr">python入门教程python入门教程python入门教程python入门教程
+                        python入门教程python入门教程python入门教程python入门教程python入门教程p
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                        ython入门教程python入门教程python入门教程python入门教程python入门教程
+                    </p>
+                </div>
+                <footer class="entry-footer clear-fix">
+                    <div class="footer-tag fl">
+                        <ul>
+                            <li><a href="#">python</a></li>
+                            <li><a href="#">django</a></li>
+                        </ul>
+                    </div >
+                    <div class="footer-enter fr">
+                        <a href="#">>阅读全文</a>
+                    </div>
+                </footer>
+            </article>
+            <!--分页模块-->
+            <ul class="pagination pull-right">
+                <li><a href="#"><<</a></li>
+                <li><a href="#"><</a></li>
+                <li><a href="#" class="selected">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">></a></li>
+                <li><a href="#">>></a></li>
+            </ul>
+            </section>
+            <section class="right-content right-fixed">
+                <div class="site-information right-list">
+                    <div class="panel-heading">
+                        <h4><i class="icon-sitemap"></i>站点信息</h4>
+                    </div>
+                    <ul>
+                        <li class="list-group-item">分类: &nbsp;0个</li>
+                        <li class="list-group-item">运行: &nbsp;0天</li>
+                        <li class="list-group-item">文章: &nbsp;0篇</li>
+                        <li class="list-group-item">评论: &nbsp;0条</li>
+                        <li class="list-group-item">访问: &nbsp;0次</li>
+                        <li class="list-group-item">标签: &nbsp;0个</li>
+                    </ul>
+                </div>
+                <div class="article-sort right-list">
+                    <div class="panel-heading">
+                        <h4><i class="icon-folder-open"></i>分类信息</h4>
+                    </div>
+                    <ul class="clear-fix">
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                        <li class="list-group-item">python<span class="tag-counter">11</span></li>
+                    </ul>
+                </div>
+                <div class="article-archiving right-list">
+                    <div class="panel-heading">
+                        <h4><i class="icon-book"></i>文章归档</h4>
+                    </div>
+                    <ul>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                        <li class="list-group-item">2018年五月(0)</li>
+                    </ul>
+                </div>
+                <div class="cloud-tag right-list">
+                    <div class="panel-heading">
+                        <h4><i class="icon-tags"></i>标签云</h4>
+                    </div>
+                    <ul class="clear-fix tag-container">
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">pyth</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">pyth</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                        <li class="tag-item"><a href="#" title="共0个话题">python</a></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        <section class="widgets visible-lg">
+            <ul class="rightWidgets">
+                <li class="scrollToTop"><i class="icon-circle-arrow-up" ></i></li>
+            </ul>
+        </section>
+    </div>
+</section>
+<footer>
+        <div id="footer">
+            <div class="footer-margin">
+                <div class="site-links clear-fix">
+                    <ul>
+                        <li><strong>友情链接</strong></li>
+                        <li>•<a href="#" title="Django官方文档">Django</a></li>
+                        <li>•<a href="#" title="菜鸟教程">菜鸟教程</a></li>
+                    </ul>
+                </div>
+                <div class="pks">
+                    <div class="collections">
+                        <p><strong>站点收藏</strong></p>
+                        <ul class="clear-fix">
+                            <li>•<a href="https://www.baidu.com/">百度搜索</a></li>
+                            <li>•<a href="https://www.aliyun.com/">阿里云</a></li>
+                            <li>•<a href="https://www.aliyun.com/">阿里云</a></li>
+                            <li>•<a href="https://www.aliyun.com/">阿里云</a></li>
+                            <li>•<a href="https://www.aliyun.com/">阿里云</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="site-info ">
+                    Copyright&nbsp;©&nbsp;&nbsp;<a href="index.html" title="www.KoiSato.cn">www.KoiSato.cn</a>&nbsp;&nbsp;|&nbsp;
+                    <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">暂无备案</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<script type="text/javascript" src="../js/fixed.js"></script>
+<script type="text/javascript" src="../js/slide.js"></script>
+</body>
+</html>
