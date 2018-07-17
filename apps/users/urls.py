@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 from django.urls import path
+
 from .views import LoginView, LogoutView, RegisterView, ForgetPwdView, ActiveCodeView, \
     SuccessView, ResetView, ResetPwdView
 

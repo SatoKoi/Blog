@@ -132,7 +132,6 @@ class Archiving(models.Model):
         return PageDetail.objects.filter(add_time__year=self.year, add_time__month=self.month).count()
     get_nums.short_description = "文章数量"
 
-
 class Message(models.Model):
     """留言板"""
     message = models.CharField(max_length=500, verbose_name="留言", default='')

@@ -30,7 +30,6 @@ $(function(){
     });
     window.onresize = function() {
         resetStatus();
-        // fixBottom();
         clearInterval(slideTimer);
         var index = $('.img-button .on').attr('data-index');
         if($(window).width() > 1085) {
@@ -226,3 +225,4 @@ function resetStatus() {
         $('.nav-menu').css('display', 'none');
     }
 }
+

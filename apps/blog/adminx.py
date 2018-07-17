@@ -49,6 +49,14 @@ class TagAdmin(object):
     ordering = ['tag_name']
 
 
+class TagAdmin(object):
+    list_display = ['tag_name', 'nums']
+    search_fields = ['tag_name']
+    list_filter = ['tag_name', 'nums']
+    ordering = ['-nums']
+    readonly_fields = ['nums']
+
+
 class TagMapAdmin(object):
     list_display = ['tag', 'article']
     search_fields = ['tag', 'article']
@@ -60,7 +68,6 @@ class TagMapAdmin(object):
         obj.save()
         tag_obj = Tags.objects.get(id=obj.tag.id)
         article_obj = PageDetail.objects.get(id=obj.article.id)
-
         if article_obj:
             article_obj.tags += "," + tag_obj.tag_name
             article_obj.save()
