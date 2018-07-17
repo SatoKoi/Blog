@@ -57,7 +57,16 @@ header{
 .user-icons > a:focus{
     color: rgba(255, 73, 91, 0.8);
 }
-
+.hello{
+    display: none;
+    margin-left: 10px;
+    transform: translateY(70%);
+    vertical-align: middle;
+}
+.hello span.user{
+    color: rgba(255, 85, 78, 0.82);
+    text-decoration: underline;
+}
 .logo{
     display: inline-block;
     width: 150px;
@@ -363,6 +372,9 @@ li.search-item:hover a{
 }
 
 @media only screen and (max-width: 380pt) {
+    .hello{
+        display: inherit;
+    }
     .nav-bar{
         display: none;
     }

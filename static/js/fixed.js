@@ -1,17 +1,23 @@
 $(function(){
     bindEvent();
     scrollSet();
-    window.onscroll = function() {
-        scrollSet();
-        // setScrollLoad();
-    };
-    if(window.onresize === null) {
-        window.onresize = function() {
-            resetStatus();
-            fixBottom();
-        }
+    imagePreview();
+    var $image = $('.entry-img');
+    var finishArray = [];
+    for(var _ = 0; _ < $image.length; _++) {
+        finishArray.push(0);
     }
-    fixBottom();
+    finishArray = _imageLazyload($image, $(window), finishArray);
+    imageLazyLoad(finishArray);
+    $image.load(function(event){
+        $(event.target).animate({opacity: 1}, 500);
+    });
+    $(window).scroll(function () {
+        scrollSet();
+    });
+    $(window).resize(function() {
+        resetStatus();
+    });
 });
 
 // 导航栏触发事件
@@ -85,4 +91,59 @@ function getElementTop (el) {
     current = current.offsetParent;
     }
     return actuanlTop
+}
+
+// 图片预览
+function imagePreview() {
+    var $img = $('#imageWidget');
+    var $imgGallery = $('.img-gallery');
+    var reader = new FileReader();
+    $img.on('change', function() {
+        var obj = $img[0].files[0];
+        // 如果有文件对象
+        if (obj) {
+            reader.onload = function (event) {
+                $imgGallery.attr('src', event.target.result);
+            };
+            reader.readAsDataURL(obj);
+        } else {
+            reader.readAsDataURL(new Blob());
+        }
+    });
+}
+
+function imageLazyLoad(finishArray) {
+    var $image = $('.entry-img');
+    var done = false;
+    var $window = $(window);
+    $window.scroll(function() {
+        var sum = 0;
+        if(!done){
+            $image.each(function(index, item) {
+                if($(item).offset().top <= $window.height() + $window.scrollTop()) {
+                    if (finishArray[index] === 1) {
+                        return;
+                    }
+                    $(item).attr("src", $(item).attr("data-src"));
+                    finishArray[index] = 1;
+                }
+            });
+            finishArray.forEach(function(item, index, array) {
+                sum += item;
+                if(sum === array.length) {
+                    done = true;
+                }
+            })
+        }
+    })
+}
+
+function _imageLazyload($image, $window, finishArray) {
+    $image.each(function(index, item) {
+        if($(item).offset().top <= $window.height() + $window.scrollTop()) {
+            $(item).attr("src", $(item).attr("data-src"));
+            finishArray[index] = 1;
+        }
+    });
+    return finishArray;
 }

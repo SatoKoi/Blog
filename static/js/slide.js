@@ -30,7 +30,7 @@ $(function(){
     });
     window.onresize = function() {
         resetStatus();
-        fixBottom();
+        // fixBottom();
         clearInterval(slideTimer);
         var index = $('.img-button .on').attr('data-index');
         if($(window).width() > 1085) {
@@ -224,14 +224,5 @@ function resetImgStatus(index) {
 function resetStatus() {
     if($(window).width() > '490') {
         $('.nav-menu').css('display', 'none');
-    }
-}
-
-// 底部固定
-function fixBottom() {
-    if($('.transform-body').height() < '640') {
-        $('#footer').addClass('footer-fix');
-    } else{
-        $('#footer').removeClass('footer-fix');
     }
 }

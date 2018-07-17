@@ -41,9 +41,9 @@
             </figure>
             <div class="fr index-p">
                 {% if page.detail|length > 350 %}
-                {{ page.detail|slice:"350"|striptags|safe }}......
+                    {{ page.detail|safe|striptags|slice:"350" }} ......
                 {% else %}
-                {{ page.detail|striptags|safe }}
+                    {{ page.detail|safe|striptags }}
                 {% endif %}
             </div>
         </div>
@@ -104,7 +104,7 @@
             {% for item in archiving %}
             <li class="list-group-item"><a href="{% url 'blog:date' item.year|concat_string:'-'|concat_string:item.month|stringformat:'s' %}" title="{{ item.year }}年{{ item.month|hans_mapping }}月文章归档">
                 {{ item.year }}年{{ item.month|hans_mapping }}月</a>
-                                       ({{ item.nums }})</li>
+                                       ({{ item.get_nums }})</li>
             {% endfor %}
         </ul>
     </div>

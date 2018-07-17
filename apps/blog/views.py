@@ -1,7 +1,9 @@
 import json
 import random
 
+from blog.forms import PublishForm
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from utils.common import get_date, split_tags, paginate, get_bread_dict
@@ -18,16 +20,18 @@ class IndexView(View):
         site_info = SiteInfo.objects.get(id=1)      # 网站信息
 
         category = ArticleCategory.objects.all()
-        tags = Tags.objects.all()
-        tags = tags.order_by('-nums')[:20]          # 获取前20个标签
+        tags = Tags.objects.all()[:20]
+        for tag in tags:
+            tag.nums = TagsMap.objects.filter(tag=tag).count()
+        tags = sorted(tags, key=lambda x: x.nums)
         pages = PageDetail.objects.all()
         lunbo_pages = pages.filter(is_lunbo=True)[:5]
         archiving = Archiving.objects.all()
-
         single_pages = paginate(request, pages[::-1], 5)
 
         return render(request, 'index.html', {'site_info': site_info,
                                               'tags': tags,
+                                              'user': request.user,
                                               'lunbo_pages': lunbo_pages,
                                               'single_pages': single_pages,
                                               'archiving': archiving,
@@ -48,20 +52,23 @@ class PageView(GetDateMixin, View):
         previous_page = PageDetail.objects.filter(id__lt=page_id)
         if previous_page:
             previous_page = previous_page.order_by('-add_time')[0]
-
         category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
         for page in pages:
             if page:
                 tag_maps = []
+                tag_map_objs = None
                 for tag in split_tags(page.tags):
                     tag_obj = Tags.objects.get(tag_name=tag)
-                    tag_map_objs = TagsMap.objects.filter(tag=tag_obj.id).all()
-                    for tag_map_obj in tag_map_objs:
-                        tag_maps.append(tag_map_obj)
+                    temp_tag_map_objs = TagsMap.objects.filter(tag=tag_obj.id).exclude(article=page_id)     # 包括tag范围内但不包括自己的相关文章
+                    if tag_map_objs:
+                        temp_tag_map_objs = (tag_map_objs | temp_tag_map_objs).distinct()
+                    tag_map_objs = temp_tag_map_objs
+                tag_maps.extend(tag_map_objs)
                 random.shuffle(tag_maps)
 
                 return render(request, 'page_detail.html', {'page': page,
+                                                            'user': request.user,
                                                             'category': category,
                                                             'archiving': archiving,
                                                             'host': host,
@@ -83,6 +90,7 @@ class CategoryView(GetDateMixin, View):
         bread_dict = get_bread_dict(category_id, pages[0].category.name)
         pages = paginate(request, pages, 8)
         return render(request, 'category.html', {'pages': pages,
+                                                 'user': request.user,
                                                  'category': category,
                                                  'archiving': archiving,
                                                  'host': host,
@@ -104,6 +112,7 @@ class AuthorArticleView(GetDateMixin, View):
         category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
         return render(request, 'author_article.html', {'pages': pages,
+                                                       'user': request.user,
                                                        'category': category,
                                                        'archiving': archiving,
                                                        'host': host,
@@ -134,12 +143,12 @@ class DateHistoryView(View):
             date_set.add("-".join([str(_year), "{:0>2}".format(_month), "{:0>2}".format(_day)]))
         date_array = [ele for ele in date_set]
         del all_pages
-
         pages = paginate(request, pages, 8)
 
         category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
         return render(request, 'date_article.html', {'pages': pages,
+                                                     'user': request.user,
                                                      'category': category,
                                                      'archiving': archiving,
                                                      'host': host,
@@ -150,18 +159,18 @@ class DateHistoryView(View):
 class SearchView(GetDateMixin, View):
     """通过关键字进行搜索"""
     def get(self, request):
-        keyword = request.GET.get('keyword')
+        keyword = request.GET.get('keyword')        # 获取关键字
         host = request.get_host()
-        pages = PageDetail.objects.filter(Q(title__contains=keyword) | Q(category__name=keyword))
-        tag_pages = TagsMap.objects.filter(tag__tag_name=keyword).values('article')
-
+        pages = PageDetail.objects.filter(Q(title__contains=keyword) | Q(category__name=keyword))   # 获取文章中标题含有关键字或分类为关键字的set
+        tag_pages = TagsMap.objects.filter(tag__tag_name=keyword).values('article')                 # 从tag映射集中获取名字为关键字的文章
         article_pages = None
         for tag_page in tag_pages:
             temp_page = PageDetail.objects.filter(id=tag_page['article'])
             if article_pages:
                 temp_page = temp_page | article_pages
             article_pages = temp_page
-        pages = (pages | article_pages).distinct().order_by('-add_time')
+        if pages and article_pages:
+            pages = (pages | article_pages).distinct().order_by('-add_time')
         count = pages.count()
 
         pages = paginate(request, pages, 20)
@@ -169,6 +178,7 @@ class SearchView(GetDateMixin, View):
         category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
         return render(request, 'search_article.html', {'pages': pages,
+                                                       'user': request.user,
                                                        'category': category,
                                                        'archiving': archiving,
                                                        'host': host,
@@ -191,6 +201,7 @@ class TagView(GetDateMixin, View):
         archiving = Archiving.objects.all()
 
         return render(request, 'tags_article.html', {'tag_maps': tag_maps,
+                                                     'user': request.user,
                                                      'category': category,
                                                      'archiving': archiving,
                                                      'host': host,
@@ -204,22 +215,58 @@ class MessageBoardView(View):
     def get(self, request):
         host = request.get_host()
         site_info = SiteInfo.objects.get(id=1)  # 网站信息
+        login_required = not request.user.is_authenticated
         category = ArticleCategory.objects.all()
-        tags = Tags.objects.all()
-        tags = tags.order_by('-nums')[:20]  # 获取前20个标签
-        pages = PageDetail.objects.all()
+        tags = Tags.objects.all()[:20]
+        for tag in tags:
+            tag.nums = TagsMap.objects.filter(tag=tag).count()
+        tags = sorted(tags, key=lambda x: x.nums)
+        # pages = PageDetail.objects.all()
         archiving = Archiving.objects.all()
-
-        single_pages = paginate(request, pages[::-1], 5)
         return render(request, 'message_board.html',  {'site_info': site_info,
+                                                       'login_required': login_required,
+                                                       'user': request.user,
                                                        'tags': tags,
-                                                       'single_pages': single_pages,
                                                        'archiving': archiving,
                                                        'category': category,
                                                        'host': host})
 
 
-class PublishView(LoginRequiredMixin, View):
+class PublishView(View):
     """发表文章页面"""
     def get(self, request):
-        return render(request, 'publish_article.html', {})
+        host = request.get_host()
+        site_info = SiteInfo.objects.get(id=1)  # 网站信息
+        archiving = Archiving.objects.all()
+        category = ArticleCategory.objects.all()
+        tags = Tags.objects.all()[:20]
+        for tag in tags:
+            tag.nums = TagsMap.objects.filter(tag=tag).count()
+        tags = sorted(tags, key=lambda x: x.nums)
+        login_required = not request.user.is_authenticated
+        return render(request, 'publish_article.html', {"login_required": login_required,
+                                                        "site_info": site_info,
+                                                        'user': request.user,
+                                                        'tags': tags,
+                                                        'category': category,
+                                                        'archiving': archiving,
+                                                        'host': host})
+
+    def post(self, request):
+        category = ArticleCategory.objects.get(name=request.POST.get("category"))
+        author = UserProfile.objects.get(username=request.user)
+        local_post = request.POST.copy()            # 浅拷贝表单提交的信息
+        local_post.update({"category": category.id, "author": author.id})
+        tags = local_post.get("tags", "")
+        publish_form = PublishForm(local_post, request.FILES)       # 使用更改过的本地的POST信息
+        if publish_form.is_valid():
+            article = publish_form.save()
+            for tag in split_tags(tags):
+                tag_obj, status = Tags.objects.get_or_create(tag_name=tag)
+                if tag_obj:
+                    tag_obj.nums += 1
+                    tag_obj.save()
+                    TagsMap.objects.get_or_create(tag=tag_obj, article=article)  # 映射关系建立
+            return HttpResponse(json.dumps({"msg": "文章提交成功", "status": "success"}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"msg": "文章提交失败，请验证表单是否正确填写", "status": "failure"}), content_type="application/json")

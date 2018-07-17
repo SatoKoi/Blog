@@ -103,7 +103,11 @@ $submitButton.on('click', function() {
                  $errorInput.text(data.msg);
             } else if(data.status == "success"){
                 msg.login = true;
-                window.location.href = '/xadmin/';        // 跳转到后台
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                     window.location.href = '/xadmin/';        // 跳转到后台
+                }
             }
         },
         complete: function(XMLHttpRequest){

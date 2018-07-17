@@ -1,6 +1,6 @@
 import json
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
@@ -34,16 +34,20 @@ class LoginView(View):
     def get(self, request):
         # 如果用户已经登录, 跳转到后台管理页面
         if request.user.is_authenticated:
+            redirect_url = request.GET.get('next', None)
+            if redirect_url:
+                return redirect(to=redirect_url)
             return redirect(to='/xadmin/')
-        is_redirect = request.GET.get('next')
-        confirmed = request.COOKIES.get('confirm', 0)
-        if is_redirect and confirmed == 0:
-            status = 'danger'       # danger 提示红色错误信息, info 提示蓝色正确信息
-            msg = '操作需要登录'
-            response = render(request, "login.html", {"msg": msg, "status": status})
-            response.set_cookie('confirm', 1)
-            return response
+        # confirmed = request.COOKIES.get('confirm', 0)
+        # if is_redirect and confirmed == 0:
+        #     status = 'danger'       # danger 提示红色错误信息, info 提示蓝色正确信息
+        #     msg = '操作需要登录'
+            # response = render(request, "login.html", {"msg": msg, "status": status})
+            # response.set_cookie('confirm', 1)
+            # return response
         # 数据转发与清理
+        next_url = request.GET.get('next', None)
+        request.session.update({'next_url': next_url})
         msg = request.session.get('msg', None)
         status = request.session.get("status", None)
         if msg:
@@ -67,6 +71,11 @@ class LoginView(View):
             if user is not None:
                 if user.is_active:          # 如果用户帐号已经激活
                     login(request, user)    # 登录账户
+                    redirect_url = request.session.get('next_url')
+                    if redirect_url:
+                        del request.session['next_url']
+                        if redirect_url == "/publish/" or redirect_url == '/':
+                            return HttpResponse(json.dumps({"status": "success", "url": redirect_url}), content_type='application/json')
                     return HttpResponse(json.dumps({"status": "success"}), content_type='application/json')
                 else:
                     return HttpResponse(json.dumps({"msg": "用户未激活! ", "status": "failure"}), content_type='application/json')
@@ -74,6 +83,13 @@ class LoginView(View):
                 return HttpResponse(json.dumps({"msg": "用户名或密码错误! ", "status": "failure"}), content_type='application/json')
         else:
             return HttpResponse(json.dumps({"msg": "表单验证失败! ", "status": "failure"}), content_type='application/json')
+
+
+class LogoutView(View):
+    """注销"""
+    def get(self, request):
+        logout(request)
+        return redirect(to='/')
 
 
 class RegisterView(View):
@@ -199,3 +215,18 @@ class RedirectToMyLoginView(View):
     def get(self, request):
         return HttpResponseRedirect(reverse("users:login"))
 
+
+def page_not_found(request):
+    """全局404页面视图配置"""
+    from django.shortcuts import render_to_response
+    response = render_to_response('404.html', {})
+    response.status_code = 404
+    return response
+
+
+def page_error(request):
+    # 全局500处理函数
+    from django.shortcuts import render_to_response
+    response = render_to_response('500.html', {})
+    response.status_code = 500
+    return response

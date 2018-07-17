@@ -18,14 +18,9 @@ class PageDetailAdmin(object):
         obj = self.new_obj
         obj.save()
         archiving, _ = Archiving.objects.get_or_create(year=obj.add_time.year, month=obj.add_time.month)
-        if archiving:
-            archiving.nums += 1
-            archiving.save()
         for tag in split_tags(obj.tags):
             tag_obj, status = Tags.objects.get_or_create(tag_name=tag)
             if tag_obj:
-                tag_obj.nums += 1
-                tag_obj.save()
                 TagsMap.objects.get_or_create(tag=tag_obj, article=obj)     # 映射关系建立
 
     def delete_model(self):
@@ -44,14 +39,14 @@ class PageDetailAdmin(object):
             if tag_obj:
                 tag_map_obj = TagsMap.objects.get(tag=tag_obj, article=obj)
                 tag_map_obj.delete()
+        obj.delete()
 
 
 class TagAdmin(object):
-    list_display = ['tag_name', 'nums']
+    list_display = ['tag_name', 'get_nums']
     search_fields = ['tag_name']
-    list_filter = ['tag_name', 'nums']
-    ordering = ['-nums']
-    readonly_fields = ['nums']
+    list_filter = ['tag_name']
+    ordering = ['tag_name']
 
 
 class TagMapAdmin(object):
@@ -65,9 +60,6 @@ class TagMapAdmin(object):
         obj.save()
         tag_obj = Tags.objects.get(id=obj.tag.id)
         article_obj = PageDetail.objects.get(id=obj.article.id)
-        if tag_obj:
-            tag_obj.nums += 1
-            tag_obj.save()
 
         if article_obj:
             article_obj.tags += "," + tag_obj.tag_name
@@ -78,11 +70,6 @@ class TagMapAdmin(object):
         obj = self.obj
         tag_obj = Tags.objects.get(id=obj.tag.id)
         article_obj = PageDetail.objects.get(id=obj.article.id)
-        if tag_obj:
-            tag_obj.nums -= 1
-            if tag_obj.nums < 0:
-                tag_obj.nums = 0
-            tag_obj.save()
         if article_obj:
             import re
             # 对文章的标签进行修改
@@ -102,10 +89,10 @@ class CategoryAdmin(object):
 
 
 class ArchivingAdmin(object):
-    list_display = ['year', 'month', 'nums']
+    list_display = ['year', 'month', 'get_nums']
     search_fields = ['year', 'month']
     list_filter = ['year', 'month']
-    ordering = ['-nums']
+    ordering = ['-year', '-month']
 
 
 class SiteInfoAdmin(object):
