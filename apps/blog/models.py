@@ -92,15 +92,22 @@ class PageDetail(models.Model):
 class Tags(models.Model):
     """标签表"""
     tag_name = models.CharField(max_length=12, verbose_name="标签")
+<<<<<<< HEAD
+=======
+    nums = models.IntegerField(default=0, verbose_name="引用个数")
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
 
     class Meta:
         verbose_name_plural = verbose_name = "标签集"
 
+<<<<<<< HEAD
     def get_nums(self):
         """获取标签个数"""
         return TagsMap.objects.filter(tag__tag_name=self.tag_name).count()
     get_nums.short_description = "引用个数"
 
+=======
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
     def __str__(self):
         return self.tag_name
 
@@ -121,6 +128,10 @@ class Archiving(models.Model):
     """文章归档"""
     year = models.IntegerField(default=date.today().year, verbose_name="归档年份")
     month = models.IntegerField(default=date.today().month, verbose_name="归档月份")
+<<<<<<< HEAD
+=======
+    nums = models.IntegerField(default=0, verbose_name="文章数量")
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
 
     class Meta:
         verbose_name_plural = verbose_name = "文章归档"
@@ -128,10 +139,13 @@ class Archiving(models.Model):
     def __str__(self):
         return "{}:{}".format(self.year, self.month)
 
+<<<<<<< HEAD
     def get_nums(self):
         return PageDetail.objects.filter(add_time__year=self.year, add_time__month=self.month).count()
     get_nums.short_description = "文章数量"
 
+=======
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
 
 class Message(models.Model):
     """留言板"""

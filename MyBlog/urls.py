@@ -34,5 +34,11 @@ urlpatterns = [
     re_path(r'static/(?P<path>.*)', serve, {"document_root": STATIC_ROOT})  # DEBUG为False时启用
 ]
 
+<<<<<<< HEAD
 handler404 = 'users.views.page_not_found'
 handler500 = 'users.views.page_error'
+=======
+
+handler404 = 'utils.page_exception.page_not_found'
+handler500 = 'utils.page_exception.page_error'
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9

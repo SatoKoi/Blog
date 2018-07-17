@@ -30,9 +30,15 @@
             </figure>
             <div class="fr index-p">
                 {% if tag_map.article.detail|length > 350 %}
+<<<<<<< HEAD
                     {{ tag_map.article.detail|striptags|safe|slice:"350" }}......
                 {% else %}
                     {{ tag_map.article.detail|striptags|safe }}
+=======
+                {{ tag_map.article.detail|slice:"350"|striptags|safe }}......
+                {% else %}
+                {{ tag_map.article.detail|striptags|safe }}
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
                 {% endif %}
             </div>
         </div>

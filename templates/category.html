@@ -41,9 +41,15 @@
             </figure>
             <div class="fr index-p">
                 {% if page.detail|length > 350 %}
+<<<<<<< HEAD
                     {{ page.detail|safe|striptags|slice:"350" }} ......
                 {% else %}
                     {{ page.detail|safe|striptags }}
+=======
+                {{ page.detail|slice:"350"|striptags|safe }}......
+                {% else %}
+                {{ page.detail|striptags|safe }}
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
                 {% endif %}
             </div>
         </div>
@@ -104,7 +110,11 @@
             {% for item in archiving %}
             <li class="list-group-item"><a href="{% url 'blog:date' item.year|concat_string:'-'|concat_string:item.month|stringformat:'s' %}" title="{{ item.year }}年{{ item.month|hans_mapping }}月文章归档">
                 {{ item.year }}年{{ item.month|hans_mapping }}月</a>
+<<<<<<< HEAD
                                        ({{ item.get_nums }})</li>
+=======
+                                       ({{ item.nums }})</li>
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
             {% endfor %}
         </ul>
     </div>

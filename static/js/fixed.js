@@ -1,6 +1,7 @@
 $(function(){
     bindEvent();
     scrollSet();
+<<<<<<< HEAD
     imagePreview();
     var $image = $('.entry-img');
     var finishArray = [];
@@ -18,6 +19,19 @@ $(function(){
     $(window).resize(function() {
         resetStatus();
     });
+=======
+    window.onscroll = function() {
+        scrollSet();
+        // setScrollLoad();
+    };
+    if(window.onresize === null) {
+        window.onresize = function() {
+            resetStatus();
+            fixBottom();
+        }
+    }
+    fixBottom();
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
 });
 
 // 导航栏触发事件
@@ -92,6 +106,7 @@ function getElementTop (el) {
     }
     return actuanlTop
 }
+<<<<<<< HEAD
 
 // 图片预览
 function imagePreview() {
@@ -147,3 +162,5 @@ function _imageLazyload($image, $window, finishArray) {
     });
     return finishArray;
 }
+=======
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9

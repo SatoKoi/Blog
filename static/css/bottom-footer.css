@@ -9,6 +9,14 @@
     line-height: 2.0;
 }
 
+<<<<<<< HEAD
+=======
+.footer-fix{
+    position: absolute;
+    bottom: 0;
+}
+
+>>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
 .site-links{
     background: rgba(95, 95, 95, 0.73);
 }
