@@ -91,10 +91,10 @@ WSGI_APPLICATION = 'MyBlog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myblog',
+        'NAME': 'demo',
         'HOST': '127.0.0.1',
         'USER': 'root',
-        'PASSWORD': '13786836697qwe',
+        'PASSWORD': '123456',
     }
 }
 
@@ -150,7 +150,7 @@ from utils.mysql_conc import get_email_account
 EMAIL_HOST = 'smtp.sina.com.cn'        # 邮箱客户端
 # EMAIL_PORT = 25 		       # 阿里云服务器已关闭25端口
 EMAIL_PORT = 587
-EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = get_email_account('root', '13786836697qwe')
+EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = get_email_account('root', '123456')
 EMAIL_USE_TLS = False
 EMAIL_FROM = EMAIL_HOST_USER  # 发件人
 

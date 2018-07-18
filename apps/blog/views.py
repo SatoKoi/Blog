@@ -262,7 +262,6 @@ class PublishView(View):
             for tag in split_tags(tags):
                 tag_obj, status = Tags.objects.get_or_create(tag_name=tag)
                 if tag_obj:
-                    tag_obj.nums += 1
                     tag_obj.save()
                     TagsMap.objects.get_or_create(tag=tag_obj, article=article)  # 映射关系建立
             return HttpResponse(json.dumps({"msg": "文章提交成功", "status": "success"}), content_type="application/json")
