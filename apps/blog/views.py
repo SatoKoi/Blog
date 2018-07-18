@@ -54,18 +54,17 @@ class PageView(GetDateMixin, View):
             previous_page = previous_page.order_by('-add_time')[0]
         category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
+        article_set = set()
         for page in pages:
             if page:
-                tag_maps = []
-                tag_map_objs = None
                 for tag in split_tags(page.tags):
                     tag_obj = Tags.objects.get(tag_name=tag)
-                    temp_tag_map_objs = TagsMap.objects.filter(tag=tag_obj.id).exclude(article=page_id)     # 包括tag范围内但不包括自己的相关文章
-                    if tag_map_objs:
-                        temp_tag_map_objs = (tag_map_objs | temp_tag_map_objs).distinct()
-                    tag_map_objs = temp_tag_map_objs
-                tag_maps.extend(tag_map_objs)
-                random.shuffle(tag_maps)
+                    tag_map_objs = TagsMap.objects.filter(tag=tag_obj.id).exclude(article=page_id)     # 包括tag范围内但不包括自己的相关文章
+                    for tag_map_obj in tag_map_objs:
+                        article = PageDetail.objects.get(id=tag_map_obj.get('article'))
+                        article_set.add(article)
+                article_list = [item for index, item in enumerate(article_set) if index <= 7]
+                random.shuffle(article_set)
 
                 return render(request, 'page_detail.html', {'page': page,
                                                             'user': request.user,
@@ -73,7 +72,7 @@ class PageView(GetDateMixin, View):
                                                             'archiving': archiving,
                                                             'host': host,
                                                             'date_msg': json.dumps(self.date_array),
-                                                            'tag_maps': tag_maps[:8],
+                                                            'article_set': article_set,
                                                             'next_page': next_page,
                                                             'previous_page': previous_page})
 

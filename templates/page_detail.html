@@ -75,9 +75,9 @@
     <div class="article-relation">
         <h4 class="icon-book">&nbsp;相关文章</h4>
         <ul class="clear-fix">
-        {% if tag_maps %}
-            {% for tag_item in tag_maps %}
-            <li>•&nbsp;<a href="{% url 'blog:detail' tag_item.article.id %}" title="{{ tag_item.article.title }}">{{ tag_item.article.title }}</a></li>
+        {% if article_list %}
+            {% for article in article_list %}
+            <li>•&nbsp;<a href="{% url 'blog:detail' article.id %}" title="{{ article.title }}">{{ article.title }}</a></li>
             {% endfor %}
         {% else %}
             <li>•&nbsp;暂无相关文章</li>
