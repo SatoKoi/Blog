@@ -66,7 +66,7 @@ active
     <div class="login-required-box">
         <div class="login-required">
             <p>您需要<a href="{% url 'users:login' %}?next=/publish/">登录</a>方可发表文章
-                <a class="icon-remove-sign fr" href="{% url 'blog:index' %}"></a></p>
+                <a class="icon-remove-sign fr icon-abs" href="{% url 'blog:index' %}"></a></p>
         </div>
     </div>
 </div>
@@ -126,13 +126,13 @@ $(function() {
              success: function(data) {
                 if(data.status === "failure") {
                     $('.form-tips').toggle("drop", {direction: "up"}, 300);
-                    $('.tips').html("<p>" + data.msg + "<a class='icon-remove-sign fr' href='javascript;void(0)' onclick='closeTips()'></a></p>");
+                    $('.tips').html("<p>" + data.msg + "<a class='icon-remove-sign fr icon-abs' href='javascript:void(0)' onclick='closeTips()'></a></p>");
                     setTimeout(function() {
                         closeTips();
                     }, 3000)
                 } else {
                     $('.form-tips').toggle("drop", {direction: "up"}, 300);
-                    $('.tips').html("<p>" + data.msg + "<a class='icon-remove-sign fr' href='{% url 'blog:index' %}'></a></p>");
+                    $('.tips').html("<p>" + data.msg + "<a class='icon-remove-sign fr icon-abs' href='{% url 'blog:index' %}'></a></p>");
                     setTimeout(function() {
                         window.location.href = '{% url 'blog:index' %}';
                     }, 3000)

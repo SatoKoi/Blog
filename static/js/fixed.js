@@ -12,6 +12,9 @@ $(function(){
     $image.load(function(event){
         $(event.target).animate({opacity: 1}, 500);
     });
+    $(window).load(function (){
+        fixBottom();
+    });
     $(window).scroll(function () {
         scrollSet();
     });
@@ -76,7 +79,7 @@ function resetStatus() {
 }
 
 function fixBottom() {
-    if($('.transform-body').height() < '640') {
+    if($('#footer').offset().top < $(window).height()) {
         $('#footer').addClass('footer-fix');
     } else{
         $('#footer').removeClass('footer-fix');

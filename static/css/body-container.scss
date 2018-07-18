@@ -590,12 +590,21 @@ a:focus{
   display: inline-block;
   width: 100%;
 }
+.icon-abs{
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+.footer-fix{
+  position: absolute;
+  bottom: 0;
+}
 .form-tips, .login-required-body{
   position: fixed;
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 999;
+  z-index: 10000;
   background-color: rgba(37, 37, 37, 0.72);
 }
 .tips-box, .login-required-box{
@@ -604,6 +613,7 @@ a:focus{
   width: 100%;
 }
 .tips {
+  position: relative;
   width: 60%;
   border: 1px solid rgba(23,116,244,1);
   border-radius: 5px;
@@ -617,6 +627,7 @@ a:focus{
   }
 }
 .login-required {
+  position: relative;
   width: 60%;
   border: 1px solid rgba(23,116,244,1);
   border-radius: 5px;

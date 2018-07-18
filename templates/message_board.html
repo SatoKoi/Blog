@@ -23,20 +23,11 @@ active
 </section>
 {% endblock %}
 {% block another_content %}
-<div class="login-required-body" style="display: {% if login_required %} block; {% else %} none;{% endif %} z-index:999;">
-    <div class="login-required-box">
-        <div class="login-required">
-            <p>您需要<a href="{% url 'users:login' %}?next=/publish/">登录</a>方可发表文章
-                <a class="icon-remove-sign fr" href="{% url 'blog:index' %}"></a></p>
-        </div>
-    </div>
-</div>
-<div class="form-tips" style="display: {% if login_required %} none {% else %} block;">
+<div class="form-tips" style="display: block">
     <div class="tips-box">
         <div class="tips">
-            <p>留言版功能暂未开放<a class='icon-remove-sign fr' href='{% url 'blog:index' %}'></a></p>
+            <p>留言版功能暂未开放<a class='icon-remove-sign fr icon-abs' href='{% url 'blog:index' %}'></a></p>
         </div>
     </div>
 </div>
-{% endif %}
 {% endblock %}

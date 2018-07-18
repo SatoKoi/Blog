@@ -36,7 +36,7 @@ class UserSettingView(BaseAdminView):
 
 class LoginView(BaseAdminView):
 
-    title = _("Please Blog")
+    title = _("请先登录")
     login_form = None
     login_template = None
 

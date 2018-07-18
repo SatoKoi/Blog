@@ -148,11 +148,11 @@ else:
 # 邮箱设置
 sys.path.insert(0, os.path.join(BASE_DIR, 'utils'))
 from utils.mysql_conc import get_email_account
-EMAIL_HOST = "smtp.sina.cn"        # 邮箱客户端
+EMAIL_HOST = 'smtp.sina.com.cn'        # 邮箱客户端
 EMAIL_PORT = 25
 EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = get_email_account('root', '123456')
 EMAIL_USE_TLS = False
-EMAIL_FROM = "KoiSato"  # 发件人
+EMAIL_FROM = EMAIL_HOST_USER  # 发件人
 
 # 设置上传文件的路径
 MEDIA_URL = '/media/'

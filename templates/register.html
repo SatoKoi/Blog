@@ -16,7 +16,7 @@
 {% endblock %}
 {% block form %}
     <div class="register-form form form-active">
-        <form role="form" autocomplete="off" method="post" action="{% url 'users:register'%}" id="register_form">
+        <form role="form" autocomplete="off" method="post" action="{% url 'users:register' %}" id="register_form">
             <div class="form-group clear-fix">
                 <div class="button-inline fl">
                     <button type="button" class="btn btn-default fr" id="emailButton">
@@ -63,6 +63,7 @@
             <p class="jstips-4 tip"></p>
             <div class="error-input form-tips"></div>
             <div class="auto-box text-right">
+                <a href="{% url 'blog:index' %}">[回到首页]</a>
                 <a id="hasaccount" href="javascript:void(0);">[已有账号?]</a>
             </div>
             <div class="form-group" id="register">
@@ -125,7 +126,7 @@ $registerButton.on('click', function(){
             if(msg.register === true) {
                 $registerButton.find('span').text('注册成功!已发送邮件, 请查收...').css('color', '#AF2115');
                 $registerButton.attr('disabled', 'disabled');
-                setTimeout(function(){window.location.href = '/success/' + msg.token + '/';}, 2000);
+                setTimeout(function(){window.location.href = '/user/success/' + msg.token + '/';}, 2000);
             } else {
                 refresh_captcha({"data": {"form_id": "register_form"}});
                 $registerButton.find('span').text('注册');

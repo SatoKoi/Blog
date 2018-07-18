@@ -138,7 +138,7 @@
             <li class="list-group-item">欢迎来到本博客页面，您可以</li>
             <li class="list-group-item ">
                 <div class="user-action">
-                    <a href="/xadmin/">管理后台</a>
+                    <a href="javascript:void(0);" onclick="redirectToAdmin();">管理后台</a>
                     <a href="{% url 'users:logout' %}">注销登录</a>
                 </div>
             </li>
@@ -178,6 +178,15 @@
         </ul>
     </div>
 </section>
+{% endblock %}
+{% block another_content %}
+<div class="form-tips" style="display: none">
+    <div class="tips-box">
+        <div class="tips">
+
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block custom_js %}
 <script type="text/javascript" src="{% static 'js/slide.js' %}"></script>

@@ -33,11 +33,14 @@ class LoginView(View):
     """登录页面"""
     def get(self, request):
         # 如果用户已经登录, 跳转到后台管理页面
+        if request.user.is_staff:
+            return redirect(to='/xadmin/')
+
         if request.user.is_authenticated:
             redirect_url = request.GET.get('next', None)
             if redirect_url:
                 return redirect(to=redirect_url)
-            return redirect(to='/xadmin/')
+            return redirect(to='/')
         # confirmed = request.COOKIES.get('confirm', 0)
         # if is_redirect and confirmed == 0:
         #     status = 'danger'       # danger 提示红色错误信息, info 提示蓝色正确信息
@@ -74,8 +77,7 @@ class LoginView(View):
                     redirect_url = request.session.get('next_url')
                     if redirect_url:
                         del request.session['next_url']
-                        if redirect_url == "/publish/" or redirect_url == '/':
-                            return HttpResponse(json.dumps({"status": "success", "url": redirect_url}), content_type='application/json')
+                        return HttpResponse(json.dumps({"status": "success", "url": redirect_url}), content_type='application/json')
                     return HttpResponse(json.dumps({"status": "success"}), content_type='application/json')
                 else:
                     return HttpResponse(json.dumps({"msg": "用户未激活! ", "status": "failure"}), content_type='application/json')

@@ -96,7 +96,7 @@ $sendEmailButton.on('click', function(){
             if(msg.send === true) {
                 $sendEmailButton.find('span').text('已发送邮件, 请查收...').css('color', '#AF2115');
                 $sendEmailButton.attr('disabled', 'disabled');
-                setTimeout(function(){window.location.href = '/success/' + msg.token + '/' ;}, 2000);
+                setTimeout(function(){window.location.href = '/user/success/' + msg.token + '/' ;}, 2000);
             } else {
                 refresh_captcha({"data": {"form_id": "forgetpwd_form"}});
                 $sendEmailButton.find('span').text('点击发送邮件');
