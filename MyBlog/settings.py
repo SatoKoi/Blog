@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = 'tdzht2p+@%k1ei-$14sm6p)6y=ket^3gbrr^rz-15caefjbmyt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -91,10 +91,10 @@ WSGI_APPLICATION = 'MyBlog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'demo',
+        'NAME': 'myblog',
         'HOST': '127.0.0.1',
         'USER': 'root',
-        'PASSWORD': '123456',
+        'PASSWORD': '13786836697qwe',
 
     }
 }
@@ -150,7 +150,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'utils'))
 from utils.mysql_conc import get_email_account
 EMAIL_HOST = "smtp.sina.cn"        # 邮箱客户端
 EMAIL_PORT = 25
-EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = get_email_account('root', '123456')
+EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = get_email_account('root', '13786836697qwe')
 EMAIL_USE_TLS = False
 EMAIL_FROM = "KoiSato"  # 发件人
 
