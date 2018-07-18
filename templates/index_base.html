@@ -50,7 +50,6 @@
                         </li>
                     </ul>
                 </div>
-<<<<<<< HEAD
                 <div class="fl hello">
                     {% if not user.is_authenticated %}
                     <p>您好, 游客 <a href="{% url 'users:login' %}?next=/">登录</a> <a href="{% url 'users:register' %}">注册</a></p>
@@ -58,8 +57,6 @@
                     <p>您好, <span class="user">{{ user.username }}</span> <a href="/xadmin/">管理</a> <a href="{% url 'users:logout' %}">注销</a></p>
                     {% endif %}
                 </div>
-=======
->>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
                 <div class="logo-site">
                     <h1>
                         <a href="{% url 'blog:index' %}" title="KoiSato的个人博客, 专注于python编程" class="logo"></a>
@@ -124,11 +121,8 @@
         </div>
     </footer>
 </div>
-<<<<<<< HEAD
 {% block another_content %}
 {% endblock %}
-=======
->>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
 {% block custom_js %} {% endblock %}
 <script type="text/javascript" src="{% static 'js/fixed.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/form.js' %}"></script>

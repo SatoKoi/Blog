@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = 'tdzht2p+@%k1ei-$14sm6p)6y=ket^3gbrr^rz-15caefjbmyt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -163,9 +163,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SESSION_SAVE_EVERY_REQUEST = True           # 保存所有请求的会话session
 SESSION_COOKIE_AGE = 60 * 30                # cookie有效时间
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True      # 关闭浏览器, cookie即失效
-<<<<<<< HEAD
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 31457280      # 最大上传大小30MB
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240       # 最大数量字段
-=======
->>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9

@@ -201,13 +201,10 @@ a:focus{
               -1px 0 15px rgba(37, 122, 255, 0.31);
   transition-duration: .5s;
 }
-<<<<<<< HEAD
 .article-content:hover .entry-img{
   transform: scale(1.1);
   transition-duration: 1s;
 }
-=======
->>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
 .entry-meta{
   margin-bottom: $contentMarginbtm;
   color: rgba(135,135,135,0.81);
@@ -227,11 +224,8 @@ a:focus{
   width: 100%;
   height: 100%;
   border: 1px solid rgba(168,168,168,0.94);
-<<<<<<< HEAD
   transform: scale(1);
   transition-duration: 1s;
-=======
->>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
 }
 .entry-content div.index-p{
   width: 68%;
@@ -580,7 +574,6 @@ a:focus{
       color: rgb(120, 120, 120);
       letter-spacing: 1px;
     }
-<<<<<<< HEAD
   }
 }
 
@@ -674,11 +667,6 @@ a:focus{
   color: rgba(229, 229, 229, 0.84);
   border-radius: 5px;
 }
-=======
-
-  }
-}
->>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
 
 @media only screen and (max-width: 825pt) {
   $imgContainerWidth1: 800px;

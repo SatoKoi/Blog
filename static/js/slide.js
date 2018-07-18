@@ -30,11 +30,6 @@ $(function(){
     });
     window.onresize = function() {
         resetStatus();
-<<<<<<< HEAD
-        // fixBottom();
-=======
-        fixBottom();
->>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
         clearInterval(slideTimer);
         var index = $('.img-button .on').attr('data-index');
         if($(window).width() > 1085) {
@@ -230,15 +225,4 @@ function resetStatus() {
         $('.nav-menu').css('display', 'none');
     }
 }
-<<<<<<< HEAD
-=======
 
-// 底部固定
-function fixBottom() {
-    if($('.transform-body').height() < '640') {
-        $('#footer').addClass('footer-fix');
-    } else{
-        $('#footer').removeClass('footer-fix');
-    }
-}
->>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9

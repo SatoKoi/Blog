@@ -57,7 +57,6 @@ header{
 .user-icons > a:focus{
     color: rgba(255, 73, 91, 0.8);
 }
-<<<<<<< HEAD
 .hello{
     display: none;
     margin-left: 10px;
@@ -68,9 +67,6 @@ header{
     color: rgba(255, 85, 78, 0.82);
     text-decoration: underline;
 }
-=======
-
->>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
 .logo{
     display: inline-block;
     width: 150px;
@@ -376,12 +372,9 @@ li.search-item:hover a{
 }
 
 @media only screen and (max-width: 380pt) {
-<<<<<<< HEAD
     .hello{
         display: inherit;
     }
-=======
->>>>>>> 099e5c25ae68b192044e849abac312193b08b4b9
     .nav-bar{
         display: none;
     }
