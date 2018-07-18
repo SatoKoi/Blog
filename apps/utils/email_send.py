@@ -32,7 +32,7 @@ def send_register_email(email, send_type="register", length=16, **kwargs):
         email_body_after = "\n用户名: {}\n密码: {}".format(username, password)
     if send_type == "register":
         email_title = "KoiSato邀请您注册激活链接"
-        email_body = "请点击下方链接激活你的账号\n http://127.0.0.1:8000/active/{0}".format(code)
+        email_body = "请点击下方链接激活你的账号\n http://47.106.72.198/user/active/{0}".format(code)
         if email_body_after:
             email_body += email_body_after
         send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
@@ -41,7 +41,7 @@ def send_register_email(email, send_type="register", length=16, **kwargs):
             pass
     elif send_type == "forget":
         email_title = 'KoiSato: 注册密码重置链接'
-        email_body = "请点击下方链接激活重置你的密码\n http://127.0.0.1:8000/reset/{0}".format(code)
+        email_body = "请点击下方链接激活重置你的密码\n http://47.106.72.198/user/reset/{0}".format(code)
         if email_body_after:
             email_body += email_body_after
         send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
