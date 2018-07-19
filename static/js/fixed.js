@@ -41,16 +41,17 @@ function bindEvent() {
 function scrollSet() {
     var $menuBox = $('#menu-box');
     var $topHeader = $('#top-header');
-    var topHeight = $topHeader.outerHeight() || 0;
-    if($(window).scrollTop() > ($menuBox.outerHeight() + topHeight)) {
-        if(!$menuBox.hasClass('shadow')){
-            $menuBox.addClass('shadow');
-        }
-        smWidgetsFixed(1);
+    var topHeight;
+    if($topHeader.is(':hidden')) {
+        topHeight = 0;
     } else {
-        if($menuBox.hasClass('shadow')){
-            $('#menu-box').removeClass('shadow');
-        }
+        topHeight = $topHeader.outerHeight();
+    }
+    if($(window).scrollTop() > ($menuBox.outerHeight() + topHeight)) {
+        $menuBox.addClass('shadow');
+        smWidgetsFixed(1);
+    } else if($(window).scrollTop() <= $menuBox.outerHeight()){
+        $menuBox.removeClass('shadow');
         smWidgetsFixed(0);
     }
 }
