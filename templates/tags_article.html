@@ -29,8 +29,8 @@
                 </a>
             </figure>
             <div class="fr index-p">
-                {% if tag_map.article.detail|length > 350 %}
-                    {{ tag_map.article.detail|striptags|safe|slice:"350" }}......
+                {% if tag_map.article.detail|length > 220 %}
+                    {{ tag_map.article.detail|striptags|safe|slice:"220" }}......
                 {% else %}
                     {{ tag_map.article.detail|striptags|safe }}
                 {% endif %}

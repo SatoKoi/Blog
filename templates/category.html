@@ -40,8 +40,8 @@
                 </a>
             </figure>
             <div class="fr index-p">
-                {% if page.detail|length > 350 %}
-                    {{ page.detail|safe|striptags|slice:"350" }} ......
+                {% if page.detail|length > 220 %}
+                    {{ page.detail|safe|striptags|slice:"220" }} ......
                 {% else %}
                     {{ page.detail|safe|striptags }}
                 {% endif %}
