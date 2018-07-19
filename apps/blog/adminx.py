@@ -27,15 +27,8 @@ class PageDetailAdmin(object):
         """删除文章时进行的数据更新"""
         obj = self.obj
         archiving = Archiving.objects.get(year=obj.add_time.year, month=obj.add_time.month)
-        if archiving:
-            archiving.nums -= 1
-            if archiving.nums < 0:
-                archiving.nums = 0
-            archiving.save()
         for tag in split_tags(obj.tags):
             tag_obj = Tags.objects.get(tag_name=tag)
-            tag_obj.nums -= 1
-            tag_obj.save()
             if tag_obj:
                 tag_map_obj = TagsMap.objects.get(tag=tag_obj, article=obj)
                 tag_map_obj.delete()
@@ -49,18 +42,11 @@ class TagAdmin(object):
     ordering = ['tag_name']
 
 
-class TagAdmin(object):
-    list_display = ['tag_name', 'nums']
-    search_fields = ['tag_name']
-    list_filter = ['tag_name', 'nums']
-    ordering = ['-nums']
-    readonly_fields = ['nums']
-
-
 class TagMapAdmin(object):
     list_display = ['tag', 'article']
     search_fields = ['tag', 'article']
     list_filter = ['tag', 'article']
+    ordering = ['tag']
 
     def save_models(self):
         """tag引用计数的更新"""
