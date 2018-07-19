@@ -20,6 +20,7 @@ $(function(){
     });
     $(window).resize(function() {
         resetStatus();
+        fixBottom();
     });
 });
 
@@ -39,7 +40,9 @@ function bindEvent() {
 // 设置fixed头部导航
 function scrollSet() {
     var $menuBox = $('#menu-box');
-    if($(window).scrollTop() > 32) {
+    var $topHeader = $('#top-header');
+    var topHeight = $topHeader.outerHeight() || 0;
+    if($(window).scrollTop() > ($menuBox.outerHeight() + topHeight)) {
         if(!$menuBox.hasClass('shadow')){
             $menuBox.addClass('shadow');
         }
@@ -79,9 +82,9 @@ function resetStatus() {
 }
 
 function fixBottom() {
-    if($('#footer').offset().top < $(window).height()) {
+    if(($('#footer').offset().top + $('#footer').outerHeight()) < $(window).height()) {
         $('#footer').addClass('footer-fix');
-    } else{
+    } else if($('body').outerHeight() > $('#footer').offset().top){
         $('#footer').removeClass('footer-fix');
     }
 }

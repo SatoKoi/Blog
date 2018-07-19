@@ -19,6 +19,7 @@ from django.contrib import admin
 import xadmin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 from django.views.static import serve
 from users.views import RedirectToMyLoginView
 
@@ -26,6 +27,7 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path(r'xadmin/login/', RedirectToMyLoginView.as_view(), name="mylogin"),
     path(r'xadmin/', xadmin.site.urls),
+    path(r'favicon.ico/', RedirectView.as_view(url=r'/static/favicon.ico', permanent=True)),
     path(r'', include('blog.urls', namespace='blog')),
     path(r'user/', include('users.urls', namespace='users')),
     path(r'captcha/', include('captcha.urls')),
