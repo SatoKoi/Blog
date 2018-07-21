@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
+import markdown
 from utils.common import get_date, split_tags, paginate, get_bread_dict
 from utils.mixin_utils import GetDateMixin, LoginRequiredMixin
 from utils.page_exception import page_not_found
@@ -57,6 +58,12 @@ class PageView(GetDateMixin, View):
         article_set = set()
         for page in pages:
             if page:
+                page.detail = markdown.markdown(page.detail,
+                                                extensions=[
+                                                    'markdown.extensions.extra',
+                                                    'markdown.extensions.codehilite',
+                                                    'markdown.extensions.toc',
+                                                ])
                 for tag in split_tags(page.tags):
                     tag_obj = Tags.objects.get(tag_name=tag)
                     tag_map_objs = TagsMap.objects.filter(tag=tag_obj.id).exclude(article=page_id).values('article')    # 包括tag范围内但不包括自己的相关文章
