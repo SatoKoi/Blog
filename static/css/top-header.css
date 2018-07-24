@@ -37,8 +37,8 @@ header{
     padding: 0 10px;
 }
 .user-profile > a:hover{
-    color: rgba(10, 10, 10, 0.84);
-    background: rgba(37, 197, 244, 0.84);
+    color: #3aa2ff;
+    /*background: #4296e3a3;*/
     transition: color 0.3s, background 0.3s;
 }
 #welcome > .user-icons{
@@ -127,7 +127,7 @@ header{
 }
 .active{
     /*rgba(62,212,255,0.82)*/
-    border-bottom: 2px solid rgba(37, 122, 255, 0.82);
+    border-bottom: 2px solid #4296e3a3;
 }
 .nav-bar{
     margin-right: 20px;
@@ -142,7 +142,7 @@ header{
 }
 
 .nav-bar > ul > li:hover{
-    background: rgba(37, 197, 244, 0.48);
+    background: #4296e3a3;
     transition: background 0.3s, color 0.3s;
 }
 .nav-bar > ul > li:hover a{

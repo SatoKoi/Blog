@@ -1,5 +1,6 @@
 import json
 import random
+import markdown
 
 from blog.forms import PublishForm
 from django.db.models import Q
@@ -57,6 +58,12 @@ class PageView(GetDateMixin, View):
         article_set = set()
         for page in pages:
             if page:
+                page_detail = markdown.markdown(page.detail,
+                                                extensions=[
+                                                    'markdown.extensions.extra',
+                                                    'markdown.extensions.codehilite',
+                                                    'markdown.extensions.toc',
+                                                ])
                 for tag in split_tags(page.tags):
                     tag_obj = Tags.objects.get(tag_name=tag)
                     tag_map_objs = TagsMap.objects.filter(tag=tag_obj.id).exclude(article=page_id).values('article')    # 包括tag范围内但不包括自己的相关文章
@@ -66,6 +73,7 @@ class PageView(GetDateMixin, View):
                 article_list = [item for index, item in enumerate(article_set) if index <= 7]
                 random.shuffle(article_list)
                 return render(request, 'page_detail.html', {'page': page,
+                                                            'page_detail': page_detail,
                                                             'user': request.user,
                                                             'category': category,
                                                             'archiving': archiving,
@@ -262,7 +270,6 @@ class PublishView(View):
             for tag in split_tags(tags):
                 tag_obj, status = Tags.objects.get_or_create(tag_name=tag)
                 if tag_obj:
-                    tag_obj.save()
                     TagsMap.objects.get_or_create(tag=tag_obj, article=article)  # 映射关系建立
             return HttpResponse(json.dumps({"msg": "文章提交成功", "status": "success"}), content_type="application/json")
         else:

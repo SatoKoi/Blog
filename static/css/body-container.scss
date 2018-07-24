@@ -19,6 +19,16 @@ html, body, div, ul, li, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, form, input,
 body{
   overflow-x: hidden;
 }
+blockquote{
+  border-left: 5px solid #77b2c4;
+  background: #dfe7e5;
+  color: #246096;
+}
+pre{
+  color: #38bce9;
+  background-color: #1b2426;
+  border: 1px solid #435a5f;
+}
 a:focus{
   text-decoration: none;
 }
@@ -80,7 +90,7 @@ a:focus{
 .img-desc p{
   z-index: 5;
   text-indent: 2em;
-  background: transparent;
+  background: -webkit-linear-gradient(45deg, transparent 0%, #5f5b5b7a 50%, transparent 100%);
   width: $imgContainerWidth  - $arrowWidth * 2;
   left: $arrowWidth;
   position: absolute;
@@ -253,6 +263,15 @@ a:focus{
   background: #fff;
   padding: 20px;
   margin-bottom: 20px;
+  border-radius: 5px;
+  transition-duration: .3s;
+}
+.entry-content li{
+  list-style:inherit!important;
+}
+.article-detail:hover{
+  box-shadow: 0 0 8px 2px #379da9;
+  transition-duration: .3s;
 }
 .independent.bread-crumbs{
   background: white;

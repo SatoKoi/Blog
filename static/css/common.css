@@ -10,6 +10,13 @@ html, body {
     /*width: 100%;*/
     /*height: 100%;*/
     height: auto;
+    scrollbar-face-color: #889B9F;
+    scrollbar-shadow-color: #3D5054;
+    scrollbar-highlight-color: #C3D6DA;
+    scrollbar-3dlight-color: #3D5054;
+    scrollbar-darkshadow-color: #85989C;
+    scrollbar-track-color: #95A6AA;
+    scrollbar-arrow-color: #FFD6DA;
 }
 
 a, a:hover, a:visited, a:active{
