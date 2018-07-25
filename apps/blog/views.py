@@ -25,7 +25,7 @@ class IndexView(TraceRouterMixin, View):
         tags = Tags.objects.all()[:20]
         for tag in tags:
             tag.nums = TagsMap.objects.filter(tag=tag).count()
-        tags = sorted(tags, key=lambda x: x.nums)
+        tags = reversed(sorted(tags, key=lambda x: x.nums))
         pages = PageDetail.objects.all()
         lunbo_pages = pages.filter(is_lunbo=True)[:5]
         archiving = Archiving.objects.all()

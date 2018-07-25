@@ -2,7 +2,7 @@
 import xadmin
 from utils.common import split_tags
 
-from .models import PageDetail, Tags, ArticleCategory, SiteInfo, TagsMap, Archiving, Message
+from .models import PageDetail, Tags, ArticleCategory, SiteInfo, TagsMap, Archiving, Message, TraceCount
 
 
 class PageDetailAdmin(object):
@@ -105,10 +105,20 @@ class MessageAdmin(object):
     readonly_fields = ['message']
 
 
+class TraceRouteAdmin(object):
+    list_display = ['router', 'remote_addr', 'method', 'visited_time']
+    search_fields = ['router', 'remote_addr', 'method']
+    list_filter = ['router', 'method', 'remote_addr']
+    readonly_fields = ['router', 'remote_addr', 'method']
+    ordering = ['-visited_time']
+
+
 xadmin.site.register(SiteInfo, SiteInfoAdmin)
 xadmin.site.register(PageDetail, PageDetailAdmin)
 xadmin.site.register(Tags, TagAdmin)
 xadmin.site.register(TagsMap, TagMapAdmin)
 xadmin.site.register(ArticleCategory, CategoryAdmin)
 xadmin.site.register(Archiving, ArchivingAdmin)
+xadmin.site.register(TraceCount, TraceRouteAdmin)
 xadmin.site.register(Message, MessageAdmin)
+
