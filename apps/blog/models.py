@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, connection
 from users.models import UserProfile
 from DjangoUeditor.models import UEditorField
 from datetime import datetime, date
@@ -43,9 +43,12 @@ class SiteInfo(models.Model):
 
     def get_total_views(self):
         """网站访问量"""
-        # TODO: 获取网站访问量
-        return 0
-    get_total_views.short_description = "评论条数"
+        # 此处为方便使用sql内置函数使用原生sql
+        cursor = connection.cursor()
+        cursor.execute("select count(DISTINCT router, remote_addr, date(visited_time)) from blog_tracecount;")
+        res = cursor.fetchone()
+        return res[0]
+    get_total_views.short_description = "网站访问量"
 
 
 class ArticleCategory(models.Model):
@@ -143,3 +146,17 @@ class Message(models.Model):
 
     def __str__(self):
         return self.message[:6]
+
+
+class TraceCount(models.Model):
+    """网站访问统计"""
+    method = models.CharField(max_length=8, verbose_name="访问方式", default="GET")
+    router = models.CharField(max_length=50, verbose_name="访问路由")
+    remote_addr = models.CharField(max_length=20, verbose_name="ip地址")
+    visited_time = models.DateTimeField(default=datetime.now, verbose_name="访问时间")
+
+    class Meta:
+        verbose_name_plural = verbose_name = "网站访问统计"
+
+    def __str__(self):
+        return "{remote_addr}:{router}".format(remote_addr=self.remote_addr, router=self.router)

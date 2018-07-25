@@ -1,7 +1,7 @@
 # apps/utils/mixin_utils.py
 import datetime
 
-from blog.models import PageDetail
+from blog.models import PageDetail, TraceCount
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -25,3 +25,13 @@ class GetDateMixin(object):
         date_set.add("-".join([str(year), "{:0>2}".format(month), "{:0>2}".format(day)]))
     del all_page_dates
     date_array = [ele for ele in date_set]      # 可供使用的变量
+
+
+class TraceRouterMixin(object):
+    """网站访问统计"""
+
+    def get_trace(self, request):
+        remote_addr = request.META.get("REMOTE_ADDR")
+        router = request.path
+        trace_count = TraceCount.objects.create(remote_addr=remote_addr, router=router, method=request.method)
+        return trace_count

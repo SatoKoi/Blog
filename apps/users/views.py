@@ -10,6 +10,7 @@ from django.views import View
 from utils.common import MSG_DICT
 from utils.email_send import send_register_email, generate_random_code
 
+from utils.mixin_utils import TraceRouterMixin
 from .models import UserProfile, EmailVarifyRecord
 from .forms import LoginForm, RegisterForm, ResetPwdForm, ForgetPwdForm
 from django.contrib.auth.backends import ModelBackend
@@ -29,10 +30,11 @@ class CustomBackend(ModelBackend):
             return None
 
 
-class LoginView(View):
+class LoginView(TraceRouterMixin, View):
     """登录页面"""
     def get(self, request):
         # 如果用户已经登录, 跳转到后台管理页面
+        self.get_trace(request)
         if request.user.is_staff:
             return redirect(to='/xadmin/')
 
@@ -66,6 +68,7 @@ class LoginView(View):
         return render(request, "login.html", {"msg": msg, "status": status})
 
     def post(self, request):
+        self.get_trace(request)
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
             user_name = request.POST.get("username", "")
@@ -94,13 +97,15 @@ class LogoutView(View):
         return redirect(to='/')
 
 
-class RegisterView(View):
+class RegisterView(TraceRouterMixin, View):
     """注册页面"""
     def get(self, request):
+        self.get_trace(request)
         register_form = RegisterForm()          # 设置了captcha字段, 将验证码内容显示到前端
         return render(request, "register.html", {"register_form": register_form})
 
     def post(self, request):
+        self.get_trace(request)
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
             email = request.POST.get("email", "")
@@ -124,13 +129,15 @@ class RegisterView(View):
             return HttpResponse(json.dumps({"status": "failure", "msg": captcha_error}), content_type="application/json")
 
 
-class ForgetPwdView(View):
+class ForgetPwdView(TraceRouterMixin, View):
     """忘记密码页面"""
     def get(self, request):
+        self.get_trace(request)
         forget_form = ForgetPwdForm()
         return render(request, "forget_pwd.html", {"forget_form": forget_form})
 
     def post(self, request):
+        self.get_trace(request)
         forget_form = ForgetPwdForm(request.POST)
         if forget_form.is_valid():
             email = request.POST.get("email", "")
@@ -145,9 +152,10 @@ class ForgetPwdView(View):
             return HttpResponse(json.dumps({"status": "failure", "msg": captcha_error}), content_type="application/json")
 
 
-class ActiveCodeView(View):
+class ActiveCodeView(TraceRouterMixin, View):
     """激活账号页面"""
     def get(self, request, active_code):
+        self.get_trace(request)
         all_records = EmailVarifyRecord.objects.filter(code=active_code)
         if all_records:
             for record in all_records:
@@ -163,10 +171,11 @@ class ActiveCodeView(View):
         return render(request, "login.html", {"msg": "链接无效", "status": "danger"})
 
 
-class SuccessView(View):
+class SuccessView(TraceRouterMixin, View):
     """邮件发送成功页面"""
     def get(self, request, token):
         # 根据凭证查看是否是正确用户
+        self.get_trace(request)
         email_record = EmailVarifyRecord.objects.filter(token=token)
         if email_record:
             return render(request, 'send_success.html')
@@ -175,9 +184,10 @@ class SuccessView(View):
             return HttpResponseRedirect(reverse('users:login'))
 
 
-class ResetView(View):
+class ResetView(TraceRouterMixin, View):
     """重置密码认证链接"""
     def get(self, request, active_code):
+        self.get_trace(request)
         all_records = EmailVarifyRecord.objects.filter(code=active_code)
         if all_records:
             for record in all_records:
@@ -188,9 +198,10 @@ class ResetView(View):
         return render(request, "login.html", {"msg": "链接无效", "status": "danger"})
 
 
-class ResetPwdView(View):
+class ResetPwdView(TraceRouterMixin, View):
     """修改密码页面"""
     def post(self, request):
+        self.get_trace(request)
         resetpwd_form = ResetPwdForm(request.POST)
         if resetpwd_form.is_valid():
             pwd1 = request.POST.get("password1", "")

@@ -5,7 +5,7 @@ def get_email_account(user, password):
     """获取邮箱账号, 密码"""
     import pymysql
     connection = pymysql.connect(
-        host='127.0.0.1',
+        host='47.106.72.198',
         user=user,
         password=password,
         database='sys',
