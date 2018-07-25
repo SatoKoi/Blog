@@ -6,7 +6,7 @@
         <div class="bread-crumbs independent">
         <ul class="clear-fix">
             <li><a href="{% url 'blog:index' %}"><span class="icon-home">首页</span></a>&nbsp;>&nbsp;</li>
-            <li><a href="{% url 'blog:category' bread_dict.id %}"><span class="icon-tag">{{ bread_dict.name }}</span></a></li>
+            <li><a href="{% url 'blog:tag' bread_dict.name %}"><span class="icon-tag">{{ bread_dict.name }}</span></a></li>
         </ul>
     </div>
     {% if tag_maps %}

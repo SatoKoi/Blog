@@ -190,10 +190,10 @@
 }
 
 .entry-content .syntaxhighlighter{
-    overflow: scroll !important;
+    overflow-y: auto !important;
 }
 .pretty{
-    max-height: 500px;
+    max-height: 400px;
 }
 .syntaxhighlighter.collapsed .toolbar span a.clone {
     display: inline!important;

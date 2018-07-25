@@ -14,10 +14,14 @@ class PageDetailAdmin(object):
     style_fields = {"detail": "ueditor"}
 
     def save_models(self):
-        """保存文章响应更新网站信息"""
+        """保存文章"""
         obj = self.new_obj
         obj.save()
-        archiving, _ = Archiving.objects.get_or_create(year=obj.add_time.year, month=obj.add_time.month)
+        archiving, status = Archiving.objects.get_or_create(year=obj.add_time.year, month=obj.add_time.month)
+        if not status:
+            old_tags_map = TagsMap.objects.filter(article=obj)
+            for old_tag_map in old_tags_map:
+                old_tag_map.delete()
         for tag in split_tags(obj.tags):
             tag_obj, status = Tags.objects.get_or_create(tag_name=tag)
             if tag_obj:
