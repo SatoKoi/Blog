@@ -193,7 +193,8 @@
     overflow-y: auto !important;
 }
 .pretty{
-    max-height: 400px;
+    border-radius: 5px;
+    padding: 10px 0;
 }
 .syntaxhighlighter.collapsed .toolbar span a.clone {
     display: inline!important;
