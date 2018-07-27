@@ -25,7 +25,6 @@ class IndexView(TagMixin, CategoryMixin, TraceRouterMixin, View):
         lunbo_pages = pages.filter(is_lunbo=True)[:5]
         archiving = Archiving.objects.all()
         single_pages = paginate(request, pages[::-1], 5)
-
         return render(request, 'index.html', {'site_info': site_info,
                                               'tags': self.tags,
                                               'user': request.user,

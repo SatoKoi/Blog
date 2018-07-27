@@ -38,14 +38,22 @@ class TraceRouterMixin(object):
 
 
 class CategoryMixin(object):
-    category = ArticleCategory.objects.all()
-    for sub_cat in category:
-        sub_cat.nums = PageDetail.objects.filter(category__name=sub_cat.name).count()
-    category = reversed(sorted(category, key=lambda x: x.nums))
+
+    @property
+    def category(self):
+        category = ArticleCategory.objects.all()
+        for sub_cat in category:
+            sub_cat.nums = PageDetail.objects.filter(category__name=sub_cat.name).count()
+        category = sorted(category, key=lambda x: x.nums)
+        return category[::-1]
 
 
 class TagMixin(object):
-    tags = Tags.objects.all()[:20]
-    for tag in tags:
-        tag.nums = TagsMap.objects.filter(tag=tag).count()
-    tags = reversed(sorted(tags, key=lambda x: x.nums))
+
+    @property
+    def tags(self):
+        tags = Tags.objects.all()[:20]
+        for tag in tags:
+            tag.nums = TagsMap.objects.filter(tag=tag).count()
+        tags = sorted(tags, key=lambda x: x.nums)
+        return tags[::-1]
