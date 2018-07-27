@@ -8,40 +8,35 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from utils.common import get_date, split_tags, paginate, get_bread_dict
-from utils.mixin_utils import GetDateMixin, LoginRequiredMixin, TraceRouterMixin
+from utils.mixin_utils import GetDateMixin, LoginRequiredMixin, TraceRouterMixin, CategoryMixin, TagMixin
 from utils.page_exception import page_not_found
 
 from .models import SiteInfo, Tags, PageDetail, Archiving, ArticleCategory, UserProfile, TagsMap, TraceCount
 
 
-class IndexView(TraceRouterMixin, View):
+class IndexView(TagMixin, CategoryMixin, TraceRouterMixin, View):
     """主页视图"""
     def get(self, request):
         self.get_trace(request)
         host = request.get_host()
         site_info = SiteInfo.objects.get(id=1)      # 网站信息
 
-        category = ArticleCategory.objects.all()
-        tags = Tags.objects.all()[:20]
-        for tag in tags:
-            tag.nums = TagsMap.objects.filter(tag=tag).count()
-        tags = reversed(sorted(tags, key=lambda x: x.nums))
         pages = PageDetail.objects.all()
         lunbo_pages = pages.filter(is_lunbo=True)[:5]
         archiving = Archiving.objects.all()
         single_pages = paginate(request, pages[::-1], 5)
 
         return render(request, 'index.html', {'site_info': site_info,
-                                              'tags': tags,
+                                              'tags': self.tags,
                                               'user': request.user,
                                               'lunbo_pages': lunbo_pages,
                                               'single_pages': single_pages,
                                               'archiving': archiving,
-                                              'category': category,
+                                              'category': self.category,
                                               'host': host})
 
 
-class PageView(TraceRouterMixin, GetDateMixin, View):
+class PageView(CategoryMixin, TraceRouterMixin, GetDateMixin, View):
     """页面详情视图"""
     def get(self, request, page_id):
         pages = PageDetail.objects.filter(id=page_id)
@@ -60,12 +55,11 @@ class PageView(TraceRouterMixin, GetDateMixin, View):
         previous_page = PageDetail.objects.filter(id__lt=page_id)
         if previous_page:
             previous_page = previous_page.order_by('-add_time')[0]
-        category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
         article_set = set()
         for page in pages:
             if page:
-                if count == 1:
+                if count <= 1:
                     page.views += 1
                     page.save()
                 page_detail = markdown.markdown(page.detail,
@@ -85,7 +79,7 @@ class PageView(TraceRouterMixin, GetDateMixin, View):
                 return render(request, 'page_detail.html', {'page': page,
                                                             'page_detail': page_detail,
                                                             'user': request.user,
-                                                            'category': category,
+                                                            'category': self.category,
                                                             'archiving': archiving,
                                                             'host': host,
                                                             'date_msg': json.dumps(self.date_array),
@@ -94,7 +88,7 @@ class PageView(TraceRouterMixin, GetDateMixin, View):
                                                             'previous_page': previous_page})
 
 
-class CategoryView(TraceRouterMixin, GetDateMixin, View):
+class CategoryView(CategoryMixin, TraceRouterMixin, GetDateMixin, View):
     """分类页面视图"""
     def get(self, request, category_id):
         self.get_trace(request)
@@ -102,20 +96,19 @@ class CategoryView(TraceRouterMixin, GetDateMixin, View):
         pages = PageDetail.objects.filter(category=category_id).order_by('-add_time')
         if not pages:
             return page_not_found(request)
-        category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
         bread_dict = get_bread_dict(category_id, pages[0].category.name)
         pages = paginate(request, pages, 8)
         return render(request, 'category.html', {'pages': pages,
                                                  'user': request.user,
-                                                 'category': category,
+                                                 'category': self.category,
                                                  'archiving': archiving,
                                                  'host': host,
                                                  'bread_dict': bread_dict,
                                                  'date_msg': json.dumps(self.date_array)})
 
 
-class AuthorArticleView(TraceRouterMixin, GetDateMixin, View):
+class AuthorArticleView(CategoryMixin, TraceRouterMixin, GetDateMixin, View):
     """作者文章详情"""
     def get(self, request, author_id):
         self.get_trace(request)
@@ -127,11 +120,10 @@ class AuthorArticleView(TraceRouterMixin, GetDateMixin, View):
         bread_dict = get_bread_dict(author_id, pages[0].author.username)
         count = pages.count()
         pages = paginate(request, pages, 8)
-        category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
         return render(request, 'author_article.html', {'pages': pages,
                                                        'user': request.user,
-                                                       'category': category,
+                                                       'category': self.category,
                                                        'archiving': archiving,
                                                        'host': host,
                                                        'author': author,
@@ -140,7 +132,7 @@ class AuthorArticleView(TraceRouterMixin, GetDateMixin, View):
                                                        'date_msg': json.dumps(self.date_array)})
 
 
-class DateHistoryView(TraceRouterMixin, View):
+class DateHistoryView(CategoryMixin, TraceRouterMixin, View):
     """通过日期搜索文章"""
     def get(self, request, date):
         self.get_trace(request)
@@ -164,18 +156,17 @@ class DateHistoryView(TraceRouterMixin, View):
         del all_pages
         pages = paginate(request, pages, 8)
 
-        category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
         return render(request, 'date_article.html', {'pages': pages,
                                                      'user': request.user,
-                                                     'category': category,
+                                                     'category': self.category,
                                                      'archiving': archiving,
                                                      'host': host,
                                                      'date': '-'.join([str(year), "{:0>2}".format(month), "{:0>2}".format(day)]),
                                                      'date_msg': json.dumps(date_array)})
 
 
-class SearchView(TraceRouterMixin, GetDateMixin, View):
+class SearchView(CategoryMixin, TraceRouterMixin, GetDateMixin, View):
     """通过关键字进行搜索"""
     def get(self, request):
         self.get_trace(request)
@@ -195,18 +186,17 @@ class SearchView(TraceRouterMixin, GetDateMixin, View):
 
         pages = paginate(request, pages, 20)
 
-        category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
         return render(request, 'search_article.html', {'pages': pages,
                                                        'user': request.user,
-                                                       'category': category,
+                                                       'category': self.category,
                                                        'archiving': archiving,
                                                        'host': host,
                                                        'count': count,
                                                        'date_msg': json.dumps(self.date_array)})
 
 
-class TagView(TraceRouterMixin, GetDateMixin, View):
+class TagView(CategoryMixin, TraceRouterMixin, GetDateMixin, View):
     """获取tag相关的视图页面"""
     def get(self, request, tag_name):
         self.get_trace(request)
@@ -218,12 +208,11 @@ class TagView(TraceRouterMixin, GetDateMixin, View):
         count = tag_maps.count()
         bread_dict = get_bread_dict(tag[0].id, tag_name)
         tag_maps = paginate(request, tag_maps[::-1], 8)
-        category = ArticleCategory.objects.all()
         archiving = Archiving.objects.all()
 
         return render(request, 'tags_article.html', {'tag_maps': tag_maps,
                                                      'user': request.user,
-                                                     'category': category,
+                                                     'category': self.category,
                                                      'archiving': archiving,
                                                      'host': host,
                                                      'count': count,
@@ -231,47 +220,37 @@ class TagView(TraceRouterMixin, GetDateMixin, View):
                                                      'date_msg': json.dumps(self.date_array)})
 
 
-class MessageBoardView(TraceRouterMixin, View):
+class MessageBoardView(TagMixin, CategoryMixin, TraceRouterMixin, View):
     """留言板视图页面"""
     def get(self, request):
         self.get_trace(request)
         host = request.get_host()
         site_info = SiteInfo.objects.get(id=1)  # 网站信息
         login_required = not request.user.is_authenticated
-        category = ArticleCategory.objects.all()
-        tags = Tags.objects.all()[:20]
-        for tag in tags:
-            tag.nums = TagsMap.objects.filter(tag=tag).count()
-        tags = sorted(tags, key=lambda x: x.nums)
         # pages = PageDetail.objects.all()
         archiving = Archiving.objects.all()
         return render(request, 'message_board.html',  {'site_info': site_info,
                                                        'login_required': login_required,
                                                        'user': request.user,
-                                                       'tags': tags,
+                                                       'tags': self.tags,
                                                        'archiving': archiving,
-                                                       'category': category,
+                                                       'category': self.category,
                                                        'host': host})
 
 
-class PublishView(TraceRouterMixin, View):
+class PublishView(TagMixin, CategoryMixin, TraceRouterMixin, View):
     """发表文章页面"""
     def get(self, request):
         self.get_trace(request)
         host = request.get_host()
         site_info = SiteInfo.objects.get(id=1)  # 网站信息
         archiving = Archiving.objects.all()
-        category = ArticleCategory.objects.all()
-        tags = Tags.objects.all()[:20]
-        for tag in tags:
-            tag.nums = TagsMap.objects.filter(tag=tag).count()
-        tags = sorted(tags, key=lambda x: x.nums)
         login_required = not request.user.is_authenticated
         return render(request, 'publish_article.html', {"login_required": login_required,
                                                         "site_info": site_info,
                                                         'user': request.user,
-                                                        'tags': tags,
-                                                        'category': category,
+                                                        'tags': self.tags,
+                                                        'category': self.category,
                                                         'archiving': archiving,
                                                         'host': host})
 

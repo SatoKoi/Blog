@@ -15,3 +15,11 @@ $(function(){
     SyntaxHighlighter.toolbar.items.list.push('clone');
     SyntaxHighlighter.all();
 });
+
+function copyTip() {
+    $(".syntaxhighlighter").on('mouseover', function() {
+
+    }).on('mouseout', function() {
+
+    })
+}

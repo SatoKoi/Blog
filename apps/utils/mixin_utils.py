@@ -1,7 +1,7 @@
 # apps/utils/mixin_utils.py
 import datetime
 
-from blog.models import PageDetail, TraceCount
+from blog.models import PageDetail, TraceCount, ArticleCategory, Tags, TagsMap
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -35,3 +35,17 @@ class TraceRouterMixin(object):
         router = request.path
         trace_count = TraceCount.objects.create(remote_addr=remote_addr, router=router, method=request.method)
         return trace_count
+
+
+class CategoryMixin(object):
+    category = ArticleCategory.objects.all()
+    for sub_cat in category:
+        sub_cat.nums = PageDetail.objects.filter(category__name=sub_cat.name).count()
+    category = reversed(sorted(category, key=lambda x: x.nums))
+
+
+class TagMixin(object):
+    tags = Tags.objects.all()[:20]
+    for tag in tags:
+        tag.nums = TagsMap.objects.filter(tag=tag).count()
+    tags = reversed(sorted(tags, key=lambda x: x.nums))
